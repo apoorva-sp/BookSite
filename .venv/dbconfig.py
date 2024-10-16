@@ -28,6 +28,43 @@ class dbConfig:
             pincode VARCHAR(10) NOT NULL
         );
         """)
+        sql.append("""
+        CREATE TABLE IF NOT EXISTS books(
+            bID INT AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(50) NOT NULL,
+            author VARCHAR(50) NOT NULL,
+            description VARCHAR(100) NOT NULL,
+            price INT NOT NULL,
+            image VARCHAR(100) NOT NULL,
+            seller_id INT,
+            FOREIGN KEY (seller_id) REFERENCES members(mID)
+        );
+        """)
+        sql.append(""" 
+        CREATE TABLE IF NOT EXISTS orders(
+                   orderID INT AUTO_INCREMENT PRIMARY KEY,
+                   buyerID int,
+                   sellerID int,
+                   bookID int,
+                   orderDate DATE NOT NULL,
+                   amount int NOT NULL,
+                   ShippingAddress VARCHAR(256) NOT NULL,
+                   DeliveryAddress VARCHAR(256) NOT NULL,
+                   FOREIGN KEY (buyerID) REFERENCES members(mID),
+                   FOREIGN KEY (sellerID) REFERENCES members(mID),
+                   FOREIGN KEY (bookID) REFERENCES books(bID)
+                   );
+                   """)
+        sql.append("""
+        CREATE TABLE IF NOT EXISTS cart(
+                   CartId INT AUTO_INCREMENT PRIMARY KEY,
+                   buyerID int,
+                   bookID int,
+                   FOREIGN KEY (buyerID) REFERENCES members(mID),
+                   FOREIGN KEY (bookID) REFERENCES books(bID)
+                   );
+                   """)
+
         for statement in sql:
             cur.execute(statement)
         con.commit()
