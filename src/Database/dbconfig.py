@@ -71,12 +71,12 @@ class dbConfig:
             );
             """)
         sql.append("""
-        CREATE TABLE IF NOT EXIST book_category(
+        CREATE TABLE IF NOT EXISTS book_category(
             BookCID INT AUTO_INCREMENT PRIMARY KEY,
             bookID int,
             categoryID int,
             FOREIGN KEY (bookID) REFERENCES books(bID),
-            FOREIGN KEY (catrgoryID) REFERENCES category(cID)
+            FOREIGN KEY (categoryID) REFERENCES category(cID)
             );
             """)
         
