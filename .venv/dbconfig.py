@@ -4,36 +4,42 @@ from keywords import *
 class dbConfig:
     def __init__(self):
         self.con = mysql.connector.connect(host=keywords.host, user=keywords.username, password=keywords.password, port=keywords.port,database=keywords.database)
-        self.cur = con.cursor()
+        self.cur = self.con.cursor()
 
 
     def initialize():
         con = mysql.connector.connect(host=keywords.host, user=keywords.username, password=keywords.password, port=keywords.port)
         cur = con.cursor()
         sql =[]
-        sql.append("CREATE DATABASE BOOKSITE;")
-        sql.append( "CREATE Table members(mID int primary key," +
-                    "username varchar(20) unique not null,"+
-                    "phone varchar(20) unique not null,"+
-                    "email varchar(30) unique not null,"+
-                    "password varchar(32) not null,"+
-                    "AddressLineOne varchar(30) not null,"+
-                    "AddressLineTwo varchar(30) not null,"+
-                    "City varchar(30) not null,"+
-                    "State varchar(30) not null,"+
-                    "Country varchar(30) not null,"+
-                    "pincode varchar(10) not null;")
-        cur.execute(sql)
+        sql.append("CREATE DATABASE IF NOT EXISTS BOOKSITE;")
+        sql.append("USE BOOKSITE;")
+        sql.append("""
+        CREATE TABLE IF NOT EXISTS members(
+            mID INT PRIMARY KEY,
+            username VARCHAR(20) UNIQUE NOT NULL,
+            phone VARCHAR(20) UNIQUE NOT NULL,
+            email VARCHAR(30) UNIQUE NOT NULL,
+            password VARCHAR(32) NOT NULL,
+            AddressLineOne VARCHAR(30) NOT NULL,
+            AddressLineTwo VARCHAR(30),
+            City VARCHAR(30) NOT NULL,
+            State VARCHAR(30) NOT NULL,
+            Country VARCHAR(30) NOT NULL,
+            pincode VARCHAR(10) NOT NULL
+        );
+        """)
+        for statement in sql:
+            cur.execute(statement)
         con.commit()
 
 
     def dropDatabase(self):
-        sql = "DROP DATABASE BOOKSITE;"
+        sql = "DROP DATABASE IF EXISTS BOOKSITE;"
         self.cur.execute(sql)
         self.con.commit()
 
     def commit(self):
-        self.con.commit();
+        self.con.commit()
         self.con.close()
 
     def rollback(self):
@@ -41,4 +47,4 @@ class dbConfig:
         self.con.close()
 
 
-# dbConfig.initialize()
+dbConfig.initialize()
