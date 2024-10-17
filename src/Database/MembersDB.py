@@ -2,7 +2,7 @@ import mysql.connector
 from hashlib import md5
 from src.Beans.Member import Member
 from src.Beans.Status import Status
-from src.Database.keywords import Keywords
+from src.Database.Constants import Constants
 
 class MemberDB:
 
@@ -24,6 +24,6 @@ class MemberDB:
             cursor.execute(sql, values)
 
         except Exception as e:
-            self.status = Status(Keywords.stausId1, Keywords.statusMessage1)
+            self.status = Status(Constants.stausId1, Constants.statusMessage1)
             print(e)
         return self.status
