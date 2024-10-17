@@ -1,8 +1,6 @@
 class Keywords:
-    username = "root"
-    password = "@D1tyanr"
+    username = "Your username"
+    password = "Your password"
     database = "Booksite"
     host = "127.0.0.1"
     port = 3306
-    stausId1 = 1
-    statusMessage1 = "Insert Error"
