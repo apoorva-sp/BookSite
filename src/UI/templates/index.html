@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book</title>
+</head>
+<body>
+    <h2>Add a New Book</h2>
+    <form action="/addbook" method="POST" enctype="multipart/form-data">
+        <!-- Title -->
+        <label for="title">Book Title:</label>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <!-- Author -->
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required><br><br>
+
+        <!-- Description -->
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+
+        <!-- Price -->
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" step="0.01" required><br><br>
+
+        <!-- Image Upload -->
+        <label for="image">Upload Book Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" required><br><br>
+
+        <!-- Seller ID (optional if already logged in) -->
+        <label for="seller_id">Seller ID:</label>
+        <input type="number" id="seller_id" name="seller_id" required><br><br>
+
+        <!-- Submit Button -->
+        <input type="submit" value="Add Book">
+    </form>
+</body>
+</html>
