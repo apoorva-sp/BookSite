@@ -1,5 +1,5 @@
 import mysql.connector
-from src.Database.keywords import Keywords
+from keywords import Keywords
 
 class dbConfig:
     def __init__(self):
