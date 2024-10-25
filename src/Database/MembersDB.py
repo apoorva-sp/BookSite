@@ -20,10 +20,16 @@ class MemberDB:
             values = (
                 m.phone, m.name, password.hexdigest(), m.addressLine1, m.addressLine2, m.city, m.state,
                 m.pincode, m.preference1, m.preference2, m.preference3)
-
             cursor.execute(sql, values)
 
         except Exception as e:
             self.status = Status(Constants.stausId1, Constants.statusMessage1)
             print(e)
         return self.status
+
+    def updateName(self,PhoneNumber:str , newName :str):
+        try:
+            cursor = self.con.cursor()
+
+        except Exception as e:
+            print(e)
