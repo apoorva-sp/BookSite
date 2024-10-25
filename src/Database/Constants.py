@@ -1,4 +1,4 @@
 
 class Constants:
-    statusId1 = 1
+    stausId1 = 1
     statusMessage1 = "Insert Error"

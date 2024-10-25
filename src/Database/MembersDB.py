@@ -23,7 +23,7 @@ class MemberDB:
             cursor.execute(sql, values)
 
         except Exception as e:
-            self.status = Status(Constants.stausId1, Constants.statusMessage1)
+            self.status = Status(Constants.statusId1, Constants.statusMessage1)
             print(e)
         return self.status
 
