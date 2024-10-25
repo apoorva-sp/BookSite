@@ -76,18 +76,6 @@ class MemberDB:
             print(e)
         return self.status
 
-    def select_all_members(self):
-        cursor = self.con.cursor()
-        sql = "SELECT * FROM MEMBERS;"
-        return cursor.execute(sql)
-
-    def delete_member(self, phone: str):
-        cursor = self.con.cursor()
-        sql = "DELETE FROM MEMBER WHERE phone = (%s);"
-        value = (phone,)
-        cursor.execute(sql, value)
-        return self.status
-
     def update_number(self, old_number: str, new_number: str):
         try:
             cursor = self.con.cursor()
