@@ -103,3 +103,7 @@ class MemberBL:
         else:
             self.db.rollback()
         return self.status
+# m=Member( 'John Doe','1234567890', 'securepassword123', '123 Main St', 'Apt 4B', 'New York', 'NY', '10001', 'Fiction', 'Non-Fiction', 'Science Fiction')
+# mbl=MemberBL()
+# print(mbl.add_member(m))
+

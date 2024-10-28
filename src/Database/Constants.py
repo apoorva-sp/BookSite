@@ -1,4 +1,34 @@
 class Constants:
+    
+    status_id1=1
+    status_message1="Image name not found"
+
+    status_id2=2
+    status_message2="Insertion Failed"
+
+    status_id3=3
+    status_message3="Image not found"
+
+    status_id4=4
+    status_message4="Book id not found"
+
+    status_id5=5
+    status_message5="Database connection failed"
+
+    status_id6=6
+    status_message6="Category already exists"
+
+    status_id7=7
+    status_message7="Category does not exist"
+
+    status_id8=8
+    status_message8="database retrival failed"
+
+    status_id9=9
+    status_message9="New price not found"
+
+
+
     status_id51 = 51
     status_message51 = "Insert Error"
 

@@ -16,73 +16,89 @@ class dbConfig:
             sql = []
             sql.append("CREATE DATABASE IF NOT EXISTS BOOKSITE;")
             sql.append("USE BOOKSITE;")
-            sql.append("""
-            CREATE TABLE IF NOT EXISTS members(
-                mID INT PRIMARY KEY AUTO_INCREMENT,
-                phone VARCHAR(20) UNIQUE NOT NULL,
-                fullname VARCHAR(20) NOT NULL,
-                password VARCHAR(32) NOT NULL,
-                address_line_one VARCHAR(30) NOT NULL,
-                address_line_two VARCHAR(30),
-                city VARCHAR(30) NOT NULL,
-                state VARCHAR(30) NOT NULL,
-                pincode VARCHAR(10) NOT NULL,
-                preferenceOne VARCHAR(20) NOT NULL,
-                preferenceTwo VARCHAR(20) NOT NULL,
-                preferenceThree VARCHAR(20) NOT NULL
-            );
-            """)
-            sql.append("""
-            CREATE TABLE IF NOT EXISTS books(
-                bID INT AUTO_INCREMENT PRIMARY KEY,
-                title VARCHAR(50) NOT NULL,
-                author VARCHAR(50) NOT NULL,
-                description VARCHAR(100) NOT NULL,
-                price INT NOT NULL,
-                image VARCHAR(100) NOT NULL,
-                seller_id INT NOT NULL,
-                FOREIGN KEY (seller_id) REFERENCES members(mID)
-            );
-            """)
             sql.append(""" 
-            CREATE TABLE IF NOT EXISTS orders(
-                orderID INT AUTO_INCREMENT PRIMARY KEY,
-                buyerID int,
-                sellerID int,
-                bookID int,
-                orderDate DATE NOT NULL,
-                amount int NOT NULL,
-                ShippingAddress VARCHAR(256) NOT NULL,
-                DeliveryAddress VARCHAR(256) NOT NULL,
-                FOREIGN KEY (buyerID) REFERENCES members(mID),
-                FOREIGN KEY (sellerID) REFERENCES members(mID),
-                FOREIGN KEY (bookID) REFERENCES books(bID)
-                );
-                       """)
-            sql.append("""
-            CREATE TABLE IF NOT EXISTS cart(
-                CartId INT AUTO_INCREMENT PRIMARY KEY,
-                buyerID int,
-                bookID int,
-                FOREIGN KEY (buyerID) REFERENCES members(mID),
-                FOREIGN KEY (bookID) REFERENCES books(bID)
-                );
-                """)
-            sql.append("""
-            CREATE TABLE IF NOT EXISTS category (
-                cID INT AUTO_INCREMENT PRIMARY KEY,
-                category VARCHAR(50) NOT NULL
-                );
-                """)
-            sql.append("""
-            CREATE TABLE IF NOT EXISTS book_category(
-                BookCID INT AUTO_INCREMENT PRIMARY KEY,
-                bookID int,
-                categoryID int,
-                FOREIGN KEY (bookID) REFERENCES books(bID),
-                FOREIGN KEY (categoryID) REFERENCES category(cID)
-                );
-                """)
+                        CREATE TABLE IF NOT EXISTS members(
+                            mID INT PRIMARY KEY AUTO_INCREMENT,
+                            phone VARCHAR(20) UNIQUE NOT NULL,
+                            fullname VARCHAR(20) NOT NULL,
+                            password VARCHAR(32) NOT NULL,
+                            address_line_one VARCHAR(30) NOT NULL,
+                            address_line_two VARCHAR(30),
+                            city VARCHAR(30) NOT NULL,
+                            state VARCHAR(30) NOT NULL,
+                            pincode VARCHAR(10) NOT NULL,
+                            preferenceOne VARCHAR(20) NOT NULL,
+                            preferenceTwo VARCHAR(20) NOT NULL,
+                            preferenceThree VARCHAR(20) NOT NULL
+                        );
+                        """)
+            sql.append(""" 
+                        CREATE TABLE IF NOT EXISTS books(
+                            bID INT AUTO_INCREMENT PRIMARY KEY,
+                            title VARCHAR(50) NOT NULL,
+                            author VARCHAR(50) NOT NULL,
+                            description VARCHAR(100) NOT NULL,
+                            price INT NOT NULL,
+                            image VARCHAR(100) NOT NULL,
+                            seller_id INT NOT NULL,
+                            FOREIGN KEY (seller_id) REFERENCES members(mID) 
+                                ON DELETE CASCADE 
+                                ON UPDATE CASCADE
+                        );
+                        """)
+            sql.append(""" 
+                        CREATE TABLE IF NOT EXISTS orders(
+                            orderID INT AUTO_INCREMENT PRIMARY KEY,
+                            buyerID INT,
+                            sellerID INT,
+                            bookID INT,
+                            orderDate DATE NOT NULL,
+                            amount INT NOT NULL,
+                            ShippingAddress VARCHAR(256) NOT NULL,
+                            DeliveryAddress VARCHAR(256) NOT NULL,
+                            FOREIGN KEY (buyerID) REFERENCES members(mID) 
+                                ON DELETE CASCADE 
+                                ON UPDATE CASCADE,
+                            FOREIGN KEY (sellerID) REFERENCES members(mID) 
+                                ON DELETE CASCADE 
+                                ON UPDATE CASCADE,
+                            FOREIGN KEY (bookID) REFERENCES books(bID) 
+                                ON DELETE CASCADE 
+                                ON UPDATE CASCADE
+                        );
+                        """)
+            sql.append(""" 
+                        CREATE TABLE IF NOT EXISTS cart(
+                            CartId INT AUTO_INCREMENT PRIMARY KEY,
+                            buyerID INT,
+                            bookID INT,
+                            FOREIGN KEY (buyerID) REFERENCES members(mID) 
+                                ON DELETE CASCADE 
+                                ON UPDATE CASCADE,
+                            FOREIGN KEY (bookID) REFERENCES books(bID) 
+                                ON DELETE CASCADE 
+                                ON UPDATE CASCADE
+                        );
+                        """)
+            sql.append(""" 
+                        CREATE TABLE IF NOT EXISTS category (
+                            cID INT AUTO_INCREMENT PRIMARY KEY,
+                            category VARCHAR(50) NOT NULL
+                        );
+                        """)
+            sql.append(""" 
+                        CREATE TABLE IF NOT EXISTS book_category(
+                            BookCID INT AUTO_INCREMENT PRIMARY KEY,
+                            bookID INT,
+                            categoryID INT,
+                            FOREIGN KEY (bookID) REFERENCES books(bID) 
+                                ON DELETE CASCADE 
+                                ON UPDATE CASCADE,
+                            FOREIGN KEY (categoryID) REFERENCES category(cID) 
+                                ON DELETE CASCADE 
+                                ON UPDATE CASCADE
+                        );
+                        """)
 
             for statement in sql:
                 cur.execute(statement)
@@ -119,5 +135,5 @@ class dbConfig:
             print(e)
 
 
-# dbConfig.destroyAll()
-# dbConfig.initialize()
+#dbConfig.destroyAll()
+#dbConfig.initialize()
