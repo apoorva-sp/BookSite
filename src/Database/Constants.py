@@ -27,6 +27,9 @@ class Constants:
     status_id9=9
     status_message9="New price not found"
 
+    status_id10=10
+    status_message10 = "Failed to add the book"
+
 
 
     status_id51 = 51

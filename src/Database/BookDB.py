@@ -4,6 +4,7 @@ from src.Database.Constants import Constants
 import mysql.connector
 from src.Database.categoryDB import Category
 from src.Database.dbconfig import dbConfig
+import os
 
 
 
@@ -24,12 +25,11 @@ class BookDB:
             if result:
                 return result[0]
             else:
-                self.status = Status(Constants.status_id4, Constants.status_message4)
                 return None
         except Exception as e:
             print(e)
-            self.status = Status(Constants.status_id8,Constants.status_id8)
-            print(self.status.message)
+            self.status = Status(Constants.status_id8,Constants.status_message8)
+
 
 
     def insertBook(self, b:Books, file_path)->Status:
@@ -38,25 +38,17 @@ class BookDB:
             sql="INSERT INTO books (title, author, description,price,image,seller_id) VALUES (%s, %s,%s,%s,%s,%s)"
             values=(b.title,b.author,b.description,b.price,file_path,b.seller_id)
             cursor.execute(sql,values)
-            self.status=self.CDB.AddCategory(b.tags)
-
-            if self.status.statusId==0:
-                book_id= self.GetBookID(b.title, b.seller_id)
-                if book_id:
-                    self.status=self.CDB.AddBookCategory(book_id,b.tags)
-                    if self.status.statusId == 0:
-                        self.con.commit()
-                    else:
-                        self.con.rollback()
-                else:
-                    self.status=Status(Constants.status_id4,Constants.status_message4)
-                    return self.status.message
-                return self.status.message
+            book_id= self.GetBookID(b.title, b.seller_id)
+            if book_id:
+                self.status=self.CDB.AddBookCategory(book_id,b.tags)
+                return self.status
+            else:
+                self.status=Status(Constants.status_id4,Constants.status_message4)
+                return self.status
         except Exception as e:
-            self.con.rollback()
             self.status = Status(Constants.status_id2, Constants.status_message2)
             print(e)
-            return self.status.message
+            return self.status
 
     def UpdatePrice(self, b:Books,NewPrice)->Status:
         try:

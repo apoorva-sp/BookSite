@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+.wrapper {
+    width: 380px;
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+header {
+    font-size: 26px;
+    font-weight: bold;
+    color: #27ae60;
+    margin-bottom: 25px;
+}
+
+form .field {
+    position: relative;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    padding: 0 15px;
+    transition: border-color 0.3s;
+}
+
+.input-area:focus-within {
+    border-color: #27ae60;
+}
+
+.input-area input {
+    width: 100%;
+    height: 45px;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+    font-size: 16px;
+    color: #333;
+    background: none;
+}
+
+.input-area .icon {
+    color: #27ae60;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+
+.error-txt {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    display: none;
+}
+
+.pass-txt {
+    text-align: right;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+.pass-txt a {
+    color: #27ae60;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.pass-txt a:hover {
+    color: #219150;
+}
+
+input[type="submit"] {
+    width: 100%;
+    height: 45px;
+    border: none;
+    background: #27ae60;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+input[type="submit"]:hover {
+    background: #219150;
+    transform: translateY(-2px);
+}
+
+input[type="submit"]:active {
+    background: #1e8e47;
+    transform: translateY(0);
+}
+
+.sign-txt {
+    margin-top: 25px;
+    font-size: 14px;
+    color: #333;
+}
+
+.sign-txt a {
+    color: #27ae60;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.sign-txt a:hover {
+    color: #219150;
+}

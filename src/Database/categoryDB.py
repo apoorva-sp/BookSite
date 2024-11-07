@@ -1,6 +1,6 @@
 from src.Beans.Books import Books
 from src.Beans.Status import Status
-from Constants import Constants
+from src.Database.Constants import Constants
 import mysql.connector
 from src.Database.dbconfig import dbConfig
 
@@ -15,10 +15,7 @@ class Category:
             sql="""select category from category"""
             cursor.execute(sql)
             existing_categories = {row[0] for row in cursor.fetchall()} 
-            new_Category=[]
-            for category in categoryList:
-                if category not in existing_categories:
-                    new_Category.append(category)
+            new_Category=[category for category in categoryList if category not in existing_categories]
             if new_Category:
                 sql = "INSERT INTO category (category) VALUES (%s)"
                 cursor.executemany(sql,[(cat,) for cat in new_Category])
@@ -28,7 +25,6 @@ class Category:
                 self.status=Status(Constants.status_id6,Constants.status_message6)
                 return self.status
         except Exception as e:
-            self.con.rollback()
             self.status=Status(Constants.status_id2,Constants.status_message2)
             return self.status
     def GetCategoryId(self, category):
@@ -56,10 +52,10 @@ class Category:
                     sql = "INSERT INTO book_category (bookId,categoryId) VALUES (%s,%s)"
                     cursor.execute(sql,(book_id,cat))
                     self.con.commit()
+                    return self.status
                 else:
                     self.status=Status(Constants.status_id7,Constants.status_message7)
-
-            return self.status
+                    return self.status
         except Exception as e:
             self.con.rollback()
             self.status=Status(Constants.status_id2,Constants.status_message2)  
