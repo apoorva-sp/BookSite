@@ -7,20 +7,28 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('AddBook.html')
 
 @app.route('/addbook', methods=['POST'])
 def add_book():
     
-    title = request.form['title']
-    author = request.form['author']
-    description = request.form['description']
-    price = float(request.form['price'])
-    seller_id = int(request.form['seller_id'])
-    image = request.files['image']  
+    title = request.form['book-title']               
+    author = request.form['author-name']             
+    description = request.form['book-description']   
+    price = int(request.form['book-price']) 
+    book_types = request.form.getlist('book-type')  
+
+        
+    other_type = request.form.get('other-type')
+    if other_type:
+        book_types.append(other_type)
+        
+    image = request.files['book-image'] 
+    # seller_id = int(request.form['seller_id'])
+      
 
     
-    b1 = Books(title=title, author=author, description=description, price=price,seller_id=seller_id)
+    b1 = Books(title=title, author=author, description=description, price=price,seller_id=1,tags=book_types)
 
    
     books_bl = BooksBL()

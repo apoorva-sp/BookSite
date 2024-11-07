@@ -3,6 +3,7 @@ from hashlib import md5
 from src.Beans.Member import Member
 from src.Beans.Status import Status
 from src.Database.Constants import Constants
+from src.Database.dbconfig import dbConfig
 
 
 class MemberDB:
@@ -86,3 +87,4 @@ class MemberDB:
             self.status = Status(Constants.status_id56, Constants.status_message56)
             print(e)
         return self.status
+

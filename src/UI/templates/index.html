@@ -2,38 +2,310 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Book</title>
+    <title>Book Store</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link rel="stylesheet" href="/src/UI/static/style.css">
+
 </head>
 <body>
-    <h2>Add a New Book</h2>
-    <form action="/addbook" method="POST" enctype="multipart/form-data">
-        <!-- Title -->
-        <label for="title">Book Title:</label>
-        <input type="text" id="title" name="title" required><br><br>
 
-        <!-- Author -->
-        <label for="author">Author:</label>
-        <input type="text" id="author" name="author" required><br><br>
+<header class="header">
 
-        <!-- Description -->
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+    <div class="header-1">
 
-        <!-- Price -->
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" step="0.01" required><br><br>
+        <a href="#" class="logo"> <i class="fas fa-book"></i> Book Point </a>
 
-        <!-- Image Upload -->
-        <label for="image">Upload Book Image:</label>
-        <input type="file" id="image" name="image" accept="image/*" required><br><br>
+        <form action="" class="search-form">
+            <input type="search" name="" placeholder="search here..." id="search-box">
+            <label for="search-box" class="fas fa-search"></label>
+        </form>
 
-        <!-- Seller ID (optional if already logged in) -->
-        <label for="seller_id">Seller ID:</label>
-        <input type="number" id="seller_id" name="seller_id" required><br><br>
+        <div class="icons">
+            <div id="search-btn" class="fas fa-search"></div>
+            <a href="#" class="fas fa-heart"></a>
+            <div id="login-btn" class="fas fa-user"></div>
+        </div>
 
-        <!-- Submit Button -->
-        <input type="submit" value="Add Book">
-    </form>
+    </div>
+
+    <div class="header-2">
+        <nav class="navbar">
+            <a href="#home">home</a>
+            <a href="#featured">featured</a>
+            <a href="#add-books">Add Books</a>
+        </nav>
+    </div>
+
+</header>
+<div id="close-login-btn" ></div>
+
+
+<section class="featured" id="featured">
+    <h1 class="heading"> <span>featured books</span> </h1>
+
+    <div class="swiper featured-slider">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide box">
+                <div class="icons">
+                    <!-- <a href="#" class="fas fa-search"></a> -->
+                    <a href="#" class="fas fa-heart"></a>
+                    <a href="#" class="fas fa-eye"></a>
+                </div>
+                <div class="image">
+                    <img src="/src/UI/image/book-1.png" alt="">
+                </div>
+                <div class="content">
+                    <h3>featured books</h3>
+
+                    <div class="purchase-options">
+                        <label class="radio-container">
+                            <input type="radio" name="purchase-type-1" value="buy" checked>
+                            Buy
+                        </label>
+                        <label class="radio-container">
+                            <input type="radio" name="purchase-type-1" value="rent">
+                            Rent
+                        </label>
+                    </div>
+
+                    <div class="price">
+                        <p class="price-label">Price: </p>
+                        <p class="current-price">$15.99</p>
+                        <span class="original-price">$20.99</span>
+                    </div>
+
+                    <a href="#" class="btn">add to cart</a>
+                </div>
+            </div>
+            <div class="swiper-slide box">
+                <div class="icons">
+                    <a href="#" class="fas fa-search"></a>
+                    <a href="#" class="fas fa-heart"></a>
+                    <a href="#" class="fas fa-eye"></a>
+                </div>
+                <div class="image">
+                    <img src="/src/UI/image/book-1.png" alt="">
+                </div>
+                <div class="content">
+                    <h3>featured books</h3>
+
+                    <div class="purchase-options">
+                        <label class="radio-container">
+                            <input type="radio" name="purchase-type-1" value="buy" checked>
+                            Buy
+                        </label>
+                        <label class="radio-container">
+                            <input type="radio" name="purchase-type-1" value="rent">
+                            Rent
+                        </label>
+                    </div>
+
+                    <div class="price">
+                        <p class="price-label">Price: </p>
+                        <p class="current-price">$15.99</p>
+                        <span class="original-price">$20.99</span>
+                    </div>
+
+                    <a href="#" class="btn">add to cart</a>
+                </div>
+            </div>
+            <div class="swiper-slide box">
+                <div class="icons">
+                    <a href="#" class="fas fa-search"></a>
+                    <a href="#" class="fas fa-heart"></a>
+                    <a href="#" class="fas fa-eye"></a>
+                </div>
+                <div class="image">
+                    <img src="/src/UI/image/book-1.png" alt="">
+                </div>
+                <div class="content">
+                    <h3>featured books</h3>
+
+                    <div class="purchase-options">
+                        <label class="radio-container">
+                            <input type="radio" name="purchase-type-1" value="buy" checked>
+                            Buy
+                        </label>
+                        <label class="radio-container">
+                            <input type="radio" name="purchase-type-1" value="rent">
+                            Rent
+                        </label>
+                    </div>
+
+                    <div class="price">
+                        <p class="price-label">Price: </p>
+                        <p class="current-price">$15.99</p>
+                        <span class="original-price">$20.99</span>
+                    </div>
+
+                    <a href="#" class="btn">add to cart</a>
+                </div>
+            </div>
+            <div class="swiper-slide box">
+                <div class="icons">
+                    <a href="#" class="fas fa-search"></a>
+                    <a href="#" class="fas fa-heart"></a>
+                    <a href="#" class="fas fa-eye"></a>
+                </div>
+                <div class="image">
+                    <img src="/src/UI/image/book-1.png" alt="">
+                </div>
+                <div class="content">
+                    <h3>featured books</h3>
+
+                    <div class="purchase-options">
+                        <label class="radio-container">
+                            <input type="radio" name="purchase-type-1" value="buy" checked>
+                            Buy
+                        </label>
+                        <label class="radio-container">
+                            <input type="radio" name="purchase-type-1" value="rent">
+                            Rent
+                        </label>
+                    </div>
+
+                    <div class="price">
+                        <p class="price-label">Price: </p>
+                        <p class="current-price">$15.99</p>
+                        <span class="original-price">$20.99</span>
+                    </div>
+
+                    <a href="#" class="btn">add to cart</a>
+                </div>
+            </div>
+            <div class="swiper-slide box">
+                <div class="icons">
+                    <a href="#" class="fas fa-search"></a>
+                    <a href="#" class="fas fa-heart"></a>
+                    <a href="#" class="fas fa-eye"></a>
+                </div>
+                <div class="image">
+                    <img src="/src/UI/image/book-1.png" alt="">
+                </div>
+                <div class="content">
+                    <h3>featured books</h3>
+
+                    <div class="purchase-options">
+                        <label class="radio-container">
+                            <input type="radio" name="purchase-type-1" value="buy" checked>
+                            Buy
+                        </label>
+                        <label class="radio-container">
+                            <input type="radio" name="purchase-type-1" value="rent">
+                            Rent
+                        </label>
+                    </div>
+
+                    <div class="price">
+                        <p class="price-label">Price: </p>
+                        <p class="current-price">$15.99</p>
+                        <span class="original-price">$20.99</span>
+                    </div>
+
+                    <a href="#" class="btn">add to cart</a>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const radioButtons = document.querySelectorAll('input[type="radio"]');
+
+    const prices = {
+        buy: {
+            current: 15.99,
+            original: 20.99
+        },
+        rent: {
+            current: 8.99,
+            original: 12.99
+        }
+    };
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', function() {
+            const content = this.closest('.content');
+            const currentPriceElement = content.querySelector('.current-price');
+            const originalPriceElement = content.querySelector('.original-price');
+            const value = this.value;
+            if (value === 'buy') {
+                currentPriceElement.textContent = `$${prices.buy.current}`;
+                originalPriceElement.textContent = `$${prices.buy.original}`;
+            } else {
+                currentPriceElement.textContent = `$${prices.rent.current}`;
+                originalPriceElement.textContent = `$${prices.rent.original}`;
+            }
+        });
+    });
+});
+</script>
+
+
+
+<section class="footer">
+
+    <div class="box-container">
+
+        <div class="box">
+            <h3>quick links</h3>
+            <a href="#home"> <i class="fas fa-arrow-right"></i> home </a>
+            <a href="#featured"> <i class="fas fa-arrow-right"></i> featured </a>
+            <a href="#add-books"> <i class="fas fa-arrow-right"></i> Add Books </a>
+        </div>
+        <div class="box">
+            <h3>contact info</h3>
+            <a href="#"> <i class="fas fa-phone"></i> +91  </a>
+            <a href="#"> <i class="fas fa-phone"></i> +91  </a>
+            <a href="#"> <i class="fas fa-envelope"></i> prabhanjan@gmail.com </a>
+            <img src="image/worldmap.png" class="map" alt="">
+        </div>
+    </div>
+
+    <div class="share">
+        <a href="#" class="fab fa-facebook-f"></a>
+        <a href="#" class="fab fa-twitter"></a>
+        <a href="#" class="fab fa-instagram"></a>
+        <a href="#" class="fab fa-linkedin"></a>
+        <a href="#" class="fab fa-pinterest"></a>
+    </div>
+
+
+</section>
+
+<div class="loader-container">
+    <img src="/src/UI/image/loader-img.gif" alt="">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+
+
+<script src="/src/UI/static/script.js"></script>
+
 </body>
 </html>
