@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Books</title>
-    <link rel="stylesheet" href="/src/UI/static/style.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
 </head>
 <body>
     <section class="add-books" id="add-books" style="padding: 40px; text-align: center;">
@@ -84,6 +84,6 @@
             <button type="submit" class="btn" style="padding: 10px 20px; font-size: 1.2em;">Add Book</button>
         </form>
     </section>
-    <script src="/src/UI/static/scripts.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
 </body>
 </html>
