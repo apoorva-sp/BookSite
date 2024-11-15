@@ -8,7 +8,7 @@ app = Flask(__name__, static_url_path='/D:/BookSite/src/UI/static')
 @app.route('/')
 def index():
     return render_template('AddBook.html')
-#src={{ url_for('static/image', filename=photo.filename ) }}
+
 @app.route('/addbook', methods=['POST'])
 def add_book():
     
