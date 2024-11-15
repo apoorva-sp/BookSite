@@ -16,17 +16,20 @@ class Category:
             cursor.execute(sql)
             existing_categories = {row[0] for row in cursor.fetchall()} 
             new_Category=[category for category in categoryList if category not in existing_categories]
+            print("1")
             if new_Category:
+                print("2")
                 sql = "INSERT INTO category (category) VALUES (%s)"
                 cursor.executemany(sql,[(cat,) for cat in new_Category])
-                self.con.commit()
-                return self.status
+                print(new_Category)
             else:
+                print("3")
                 self.status=Status(Constants.status_id6,Constants.status_message6)
-                return self.status
         except Exception as e:
+            print("4")
             self.status=Status(Constants.status_id2,Constants.status_message2)
-            return self.status
+        return self.status
+
     def GetCategoryId(self, category):
         try:
             cursor = self.con.cursor()
@@ -64,9 +67,12 @@ class Category:
 
 
 
-        
-                    
-                    
 
-            
-                
+# db = dbConfig()
+# Cat = Category(db.con)
+# S = Cat.AddCategory(["random category","Another one"])
+#
+# if(S.statusId == 0):
+#     db.commit()
+# else:
+#     db.rollback()

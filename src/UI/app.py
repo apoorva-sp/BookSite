@@ -3,11 +3,11 @@ from src.Beans.Books import Books
 from src.Business_Logic.BooksBL import BooksBL
 
 
-app = Flask(__name__, static_url_path='/D:/BookSite/src/UI/static')
+app = Flask(__name__, static_url_path='/src/UI/static')
 
 @app.route('/')
 def index():
-    return render_template('AddBook.html')
+    return render_template('login.html')
 
 @app.route('/addbook', methods=['POST'])
 def add_book():
