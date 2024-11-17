@@ -88,3 +88,23 @@ class MemberDB:
             print(e)
         return self.status
 
+    def login(self,number:str,password:str)->bool:
+        try:
+            hashed = md5(password.encode()).hexdigest()
+            cursor = self.con.cursor()
+            sql = """SELECT * FROM members WHERE phone = %s AND passkey = %s"""
+            cursor.execute(sql,(number,hashed))
+            return len(cursor.fetchall()) == 1
+        except Exception as e:
+            print(e)
+            return False
+
+    def getInfo(self,phone:str):
+        cursor = self.con.cursor()
+        sql = "SELECT * FROM members where phone = %s"
+        cursor.execute(sql,(phone,))
+        return cursor.fetchone();
+# d = dbConfig()
+# mdb = MemberDB(d.con)
+# print(mdb.login("1234567890","securepassword123"))
+# d.commit()

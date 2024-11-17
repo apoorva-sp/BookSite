@@ -16,6 +16,7 @@ class BooksBL:
         self.cdb = Category(self.db.con)
 
     def addBook(self, b1: Books, image,flag = False) -> Status:
+        file_path = None
         try:
             if image.filename == '':
                 self.status = Status(self.c.status_id1, self.c.status_message1)
@@ -23,7 +24,7 @@ class BooksBL:
 
             if image:
                 filename = secure_filename(image.filename)
-                UPLOAD_FOLDER = 'Book_Images'
+                UPLOAD_FOLDER = 'static/Book_Images'
                 id_of_user = b1.seller_id
 
                 user_folder = os.path.join(UPLOAD_FOLDER, str(id_of_user))
@@ -37,12 +38,14 @@ class BooksBL:
                     file_path = f"{base}_{i}{extension}"
                     i += 1
                 image.save(file_path)
+                flag = True
 
                 # Insert book details into the database
                 if flag:
                     dbTemp = dbConfig()
                     CDB = Category(dbTemp.con)
                     self.status = CDB.AddCategory(b1.tags)
+                    #it will return status id 6 if category alread
                     if self.status.statusId == 0:
                         dbTemp.commit()
                     else:
@@ -51,15 +54,16 @@ class BooksBL:
 
                 if self.status.statusId == 0:
                     self.status = self.bdb.insertBook(b1, file_path)
-                    if os.path.exists(file_path):
-                        os.remove(file_path)
-                    print(f"Image at {file_path} deleted due to failure")
-
+                    if self.status == 0:
+                        self.db.commit()
             else:
                 self.status = Status(self.c.status_id3, self.c.status_message3)
         except Exception as e:
             print(f"Error: {e}")
             self.status = Status(self.c.status_id10, self.c.status_message10)
+
+            print(f"Image at {file_path} deleted due to failure")
+
         return self.status
 
     def search(self,name):
@@ -90,4 +94,17 @@ class BooksBL:
             self.db.rollback()
         return self.status
 
+    def displayPreferedBooks(self, preferences_list):
+        cursor = self.db.con.cursor()
+        preferences = []
+        for i in range(3):
+            sql = """SELECT bid,title,author,price,image,c.category
+                    FROM books b,category c, book_category bc
+                    where c.category = %s AND c.cID = bc.categoryID AND b.bID = bc.BookID
+            """
+            cursor.execute(sql, (preferences_list[i],))
+            result = cursor.fetchall()
+            preferences.append(result)
+        self.db.con.close()
+        return preferences
 

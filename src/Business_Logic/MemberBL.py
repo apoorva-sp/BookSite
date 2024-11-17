@@ -99,7 +99,20 @@ class MemberBL:
             self.db.rollback()
 
         return self.status
-# m=Member( 'John Doe','1234567890', 'securepassword123', '123 Main St', 'Apt 4B', 'New York', 'NY', '10001', 'Fiction', 'Non-Fiction', 'Science Fiction')
+
+
+    def login(self,number:str,password:str):
+        if len(number) != 10 or len(password)<8:
+            self.status = Status(2000,"ENTER NAME AND PASSWORD OF ATLEAST 8 CHARACTERS")
+            print(self.status)
+            return False
+        else:
+            return self.mdb.login(number,password)
+
+    def getpreferences(self,number:str):
+        data = self.mdb.getInfo(number)
+        return [data[-3],data[-2],data[-1]]
+# m=Member( 'John Doe','1234567890', 'abcd1234', '123 Main St', 'Apt 4B', 'New York', 'NY', '10001', 'Fiction', 'Non-Fiction', 'Science Fiction')
 # mbl=MemberBL()
 # print(mbl.add_member(m))
-
+# print(mbl.login("1234567890","securepassword123"))

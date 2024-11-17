@@ -30,6 +30,8 @@ class Constants:
     status_id10=10
     status_message10 = "Failed to add the book"
 
+    status_id11 = 11
+    status_message11 = "Empty search"
 
 
     status_id51 = 51

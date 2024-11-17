@@ -86,17 +86,6 @@ class BookDB:
             self.status = Status(Constants.status_id5, Constants.status_message5)
             return self.status
 
-    def displayPreferedBooks(self, preferences_list):
-        cursor = self.con.cursor
-        d = {0: "preferenceOne", 1: "preferenceTwo", 2: "preferenceThree"}
-        preferences = []
-        for i in range(3):
-            sql = "SELECT * FROM books WHERE " + d[i] + "= (?)"
-            cursor.execute(sql, (preferences_list[i]))
-            result = cursor.fetchall()
-            preferences.append(result)
-        return preferences
-
     def displaySearch(self, text: str) -> Status:
         cursor = self.con.cursor()
         sql = "SELECT * FROM books WHERE name REGEXP %s ;"
@@ -115,3 +104,7 @@ class BookDB:
             print(e)
             self.status = Status(Constants.status_id5, Constants.status_message5)
             return self.status.message
+
+# dbcon = dbConfig()
+# bdb = BookDB(dbcon.con)
+# print(bdb.displayPreferedBooks(["horror","children","science"]))

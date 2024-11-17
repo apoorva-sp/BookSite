@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Books</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <section class="add-books" id="add-books" style="padding: 40px; text-align: center;">
@@ -38,33 +38,33 @@
             <div class="form-group" style="margin-bottom: 15px;">
                 <label style="font-size: 1.5em;">Book Type:</label><br>
                 <div style="display: flex; flex-direction: column; align-items: flex-start;">
-                    <label style="display: flex; align-items: center; font-size: 1.5em;">
-                        <input type="checkbox" class="book-type" name="book-type[]" value="fiction" onchange="updateCheckboxes()" style="margin-right: 10px;">
+                    <label for="type-fiction" style="display: flex; align-items: center; font-size: 1.5em;">
+                        <input id="type-fiction" type="checkbox" class="book-type" name="book-type[]" value="fiction" onchange="updateCheckboxes()" style="margin-right: 10px;">
                         Fiction
                     </label>
-                    <label style="display: flex; align-items: center; font-size: 1.5em;">
-                        <input type="checkbox" class="book-type" name="book-type[]" value="non-fiction" onchange="updateCheckboxes()" style="margin-right: 10px;">
+                    <label for="type-nonfiction" style="display: flex; align-items: center; font-size: 1.5em;">
+                        <input id="type-nonfiction" type="checkbox" class="book-type" name="book-type[]" value="non-fiction" onchange="updateCheckboxes()" style="margin-right: 10px;">
                         Non-Fiction
                     </label>
-                    <label style="display: flex; align-items: center; font-size: 1.5em;">
-                        <input type="checkbox" class="book-type" name="book-type[]" value="science" onchange="updateCheckboxes()" style="margin-right: 10px;">
+                    <label for="type-science" style="display: flex; align-items: center; font-size: 1.5em;">
+                        <input id="type-science" type="checkbox" class="book-type" name="book-type[]" value="science" onchange="updateCheckboxes()" style="margin-right: 10px;">
                         Science
                     </label>
-                    <label style="display: flex; align-items: center; font-size: 1.5em;">
-                        <input type="checkbox" class="book-type" name="book-type[]" value="biography" onchange="updateCheckboxes()" style="margin-right: 10px;">
+                    <label for="type-biography" style="display: flex; align-items: center; font-size: 1.5em;">
+                        <input id="type-biography" type="checkbox" class="book-type" name="book-type[]" value="biography" onchange="updateCheckboxes()" style="margin-right: 10px;">
                         Biography
                     </label>
-                    <label style="display: flex; align-items: center; font-size: 1.5em;">
-                        <input type="checkbox" class="book-type" name="book-type[]" value="fantasy" onchange="updateCheckboxes()" style="margin-right: 10px;">
+                    <label for="type-fantasy" style="display: flex; align-items: center; font-size: 1.5em;">
+                        <input id="type-fantasy" type="checkbox" class="book-type" name="book-type[]" value="fantasy" onchange="updateCheckboxes()" style="margin-right: 10px;">
                         Fantasy
                     </label>
-                    <label style="display: flex; align-items: center; font-size: 1.5em;">
-                        <input type="checkbox" class="book-type" name="book-type[]" value="mystery" onchange="updateCheckboxes()" style="margin-right: 10px;">
+                    <label for="type-mystery" style="display: flex; align-items: center; font-size: 1.5em;">
+                        <input id="type-mystery" type="checkbox" class="book-type" name="book-type[]" value="mystery" onchange="updateCheckboxes()" style="margin-right: 10px;">
                         Mystery
                     </label>
-                    <label style="display: flex; align-items: center; font-size: 1.5em;">
+                    <label for="type-other" style="display: flex; align-items: center; font-size: 1.5em;">
                         Others :
-                        <input type="text" class="book-type" name="other-book-type" onchange="updateCheckboxes()" style="margin-right: 10px;">
+                        <input id="type-other" type="text" class="book-type" name="other-book-type" onchange="updateCheckboxes()" style="margin-right: 10px;">
                     </label>
                 </div>
             </div>
@@ -84,6 +84,6 @@
             <button type="submit" class="btn" style="padding: 10px 20px; font-size: 1.2em;">Add Book</button>
         </form>
     </section>
-<script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>
+<!--<script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>-->
 </body>
 </html>
