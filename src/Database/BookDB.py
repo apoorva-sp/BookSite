@@ -11,7 +11,6 @@ class BookDB:
     def __init__(self, con: mysql.connector.connect()):
         self.con = con
         self.status = Status()
-        self.CDB = Category(con)
 
     def GetBookID(self, title, seller_id):
         try:
@@ -29,21 +28,33 @@ class BookDB:
 
     def insertBook(self, b: Books, file_path) -> Status:
         try:
-            cursor = self.con.cursor()
-            sql = "INSERT INTO books (title, author, description,price,image,seller_id) VALUES (%s, %s,%s,%s,%s,%s)"
+            dbTemp1 = dbConfig()
+            tempcur = dbTemp1.con.cursor()
+            cursor= self.con.cursor()
+            sql = "INSERT INTO books (title, author, description,price,image,seller_id) VALUES (%s,%s,%s,%s,%s,%s)"
             values = (b.title, b.author, b.description, b.price, file_path, b.seller_id)
-            cursor.execute(sql, values)
+            tempcur.execute(sql, values)
+            dbTemp1.commit()
             book_id = self.GetBookID(b.title, b.seller_id)
+            print("bookid extracted successfully", book_id)
             if book_id:
-                self.status = self.CDB.AddBookCategory(book_id, b.tags)
-                return self.status
+                dbTemp = dbConfig()
+                CDB = Category(dbTemp.con)
+                print("bid: ",book_id,"tags: ",b.tags)
+                self.status = CDB.AddBookCategory(book_id,b.tags)
+                print("Adding BOOK CATEGrY",self.status.message)
+                if self.status.statusId == 0:
+                    dbTemp.commit()
+                    print("here")
+                else:
+                    self.status = Status(1001010,"INSERTING BOOK_CATEGORY ERROR")
+                    dbTemp.rollback()
             else:
                 self.status = Status(Constants.status_id4, Constants.status_message4)
-                return self.status
         except Exception as e:
             self.status = Status(Constants.status_id2, Constants.status_message2)
             print(e)
-            return self.status
+        return self.status
 
     def UpdatePrice(self, b: Books, NewPrice) -> Status:
         try:
@@ -106,5 +117,8 @@ class BookDB:
             return self.status.message
 
 # dbcon = dbConfig()
+# b = Books("software comp 3","thripati","Book on Software Engineering",100,1,["horror","mystery","science"])
 # bdb = BookDB(dbcon.con)
+# print(bdb.insertBook(b,"static/Book_Images/1/1.jpg"))
+# dbcon.commit()
 # print(bdb.displayPreferedBooks(["horror","children","science"]))

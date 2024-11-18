@@ -16,29 +16,30 @@ class BooksBL:
         self.cdb = Category(self.db.con)
 
     def addBook(self, b1: Books, image,flag = False) -> Status:
-        file_path = None
+        global file_path
         try:
             if image.filename == '':
                 self.status = Status(self.c.status_id1, self.c.status_message1)
                 return self.status
-
-            if image:
+            elif image.filename:
                 filename = secure_filename(image.filename)
-                UPLOAD_FOLDER = 'static/Book_Images'
+                UPLOAD_FOLDER = os.path.join('static', 'Book_Images')
                 id_of_user = b1.seller_id
 
                 user_folder = os.path.join(UPLOAD_FOLDER, str(id_of_user))
                 if not os.path.exists(user_folder):
                     os.makedirs(user_folder)
+                path_to_store = f"Book_Images/{id_of_user}/{filename}"
 
                 file_path = os.path.join(user_folder, filename)
+                name, extension = os.path.splitext(filename)
                 base, extension = os.path.splitext(file_path)
                 i = 1
                 while os.path.exists(file_path):
                     file_path = f"{base}_{i}{extension}"
+                    path_to_store = f"Book_Images/{id_of_user}/{name}_{i}{extension}"
                     i += 1
                 image.save(file_path)
-                flag = True
 
                 # Insert book details into the database
                 if flag:
@@ -47,23 +48,38 @@ class BooksBL:
                     self.status = CDB.AddCategory(b1.tags)
                     #it will return status id 6 if category alread
                     if self.status.statusId == 0:
+                        print("category inserted successfully")
+                        dbTemp.commit()
+                    elif self.status.statusId == 6:
+                        print("Category Already There man")
                         dbTemp.commit()
                     else:
-                        print("ADDING CATEGORY ERROR")
+                        print("Category insertion error")
                         dbTemp.rollback()
 
-                if self.status.statusId == 0:
-                    self.status = self.bdb.insertBook(b1, file_path)
-                    if self.status == 0:
+                if self.status.statusId == 0 or self.status.statusId == 6:
+                    print("next insert function will be called")
+
+                    self.status = self.bdb.insertBook(b1, path_to_store)
+                    print("function called")
+                    print(self.status.message)
+                    if self.status.statusId == 0:
+                        print("successfully added")
                         self.db.commit()
+                    else:
+                        self.db.rollback()
             else:
                 self.status = Status(self.c.status_id3, self.c.status_message3)
+
+            if self.status.statusId !=0:
+                print("images is deleted due to roll back")
+                os.remove(file_path)
+
         except Exception as e:
             print(f"Error: {e}")
             self.status = Status(self.c.status_id10, self.c.status_message10)
-
-            print(f"Image at {file_path} deleted due to failure")
-
+            if file_path:
+                os.remove(file_path)
         return self.status
 
     def search(self,name):
@@ -105,6 +121,6 @@ class BooksBL:
             cursor.execute(sql, (preferences_list[i],))
             result = cursor.fetchall()
             preferences.append(result)
-        self.db.con.close()
-        return preferences
 
+        cursor.close()
+        return preferences

@@ -103,7 +103,12 @@ class MemberDB:
         cursor = self.con.cursor()
         sql = "SELECT * FROM members where phone = %s"
         cursor.execute(sql,(phone,))
-        return cursor.fetchone();
+        return cursor.fetchone()
+    def get_mid(self,phone:str):
+        cursor = self.con.cursor()
+        sql = "select mID from members where phone = %s"
+        cursor.execute(sql,(phone,))
+        return cursor.fetchone()
 # d = dbConfig()
 # mdb = MemberDB(d.con)
 # print(mdb.login("1234567890","securepassword123"))

@@ -112,6 +112,9 @@ class MemberBL:
     def getpreferences(self,number:str):
         data = self.mdb.getInfo(number)
         return [data[-3],data[-2],data[-1]]
+    def get_mid(self,phone:str):
+        data = self.mdb.get_mid(phone)
+        return data
 # m=Member( 'John Doe','1234567890', 'abcd1234', '123 Main St', 'Apt 4B', 'New York', 'NY', '10001', 'Fiction', 'Non-Fiction', 'Science Fiction')
 # mbl=MemberBL()
 # print(mbl.add_member(m))

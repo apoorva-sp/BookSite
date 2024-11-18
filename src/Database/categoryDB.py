@@ -14,19 +14,15 @@ class Category:
             cursor = self.con.cursor()
             sql="""select category from category"""
             cursor.execute(sql)
-            existing_categories = {row[0] for row in cursor.fetchall()} 
+            data = cursor.fetchall()
+            existing_categories = {row[0] for row in data}
             new_Category=[category for category in categoryList if category not in existing_categories]
-            print("1")
             if new_Category:
-                print("2")
                 sql = "INSERT INTO category (category) VALUES (%s)"
                 cursor.executemany(sql,[(cat,) for cat in new_Category])
-                print(new_Category)
             else:
-                print("3")
                 self.status=Status(Constants.status_id6,Constants.status_message6)
         except Exception as e:
-            print("4")
             self.status=Status(Constants.status_id2,Constants.status_message2)
         return self.status
 
@@ -37,6 +33,7 @@ class Category:
             cursor.execute(sql, (category,))
             category_id = cursor.fetchone()
             if category_id:
+
                 return category_id[0]
             else:
                 return None
@@ -46,23 +43,21 @@ class Category:
             print(f"Error retrieving category ID: {e}")
             return None
 
-    def AddBookCategory(self,book_id,CategoryList):
+    def AddBookCategory(self,book_id,CategoryList:list):
         try:
             cursor = self.con.cursor()
             for category in CategoryList:
                 cat=self.GetCategoryId(category)
+                print("category id retrieved is ",cat)
                 if cat:
                     sql = "INSERT INTO book_category (bookId,categoryId) VALUES (%s,%s)"
                     cursor.execute(sql,(book_id,cat))
-                    self.con.commit()
-                    return self.status
                 else:
                     self.status=Status(Constants.status_id7,Constants.status_message7)
                     return self.status
         except Exception as e:
-            self.con.rollback()
             self.status=Status(Constants.status_id2,Constants.status_message2)  
-            return self.status
+        return self.status
 
 
 
@@ -70,9 +65,11 @@ class Category:
 
 # db = dbConfig()
 # Cat = Category(db.con)
-# S = Cat.AddCategory(["random category","Another one"])
-#
+# S = Cat.AddCategory(["maths","arithmatic"])
+# # print(Cat.GetCategoryId("mystery"))
+# S = Cat.AddBookCategory(52,["maths","arithmatic"])
 # if(S.statusId == 0):
 #     db.commit()
 # else:
 #     db.rollback()
+
