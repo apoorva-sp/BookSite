@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store</title>
+    
+
+    <link rel="stylesheet" href="{{ url_for('static',filename='cart.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+
+        <div class="header-1">
+    
+            <a href="#" class="logo"> <i class="fas fa-book"></i> Book Point </a>
+    
+            <form action="/search_item" method="post" class="search-form">
+                <input type="search" name="Searched_item" placeholder="search here..." id="search-box">
+                <input type ="submit" for="search-box" class="fas fa-search">
+            </form>
+    
+            <div class="icons">
+                <div id="search-btn" class="fas fa-search"></div>
+                <a href="/favorites" class="fas fa-heart"></a>
+                <a href="/profile" id="login-btn" class="fas fa-user"></a>
+            </div>
+    
+        </div>
+    
+        <div class="header-2">
+            <nav class="navbar">
+                <a href="/homepage">home</a>
+                <a href="{{ url_for('add_book_page') }}">Add Books</a>
+                <a href="/mybooks">My Books</a>
+            </nav>
+        </div>
+    
+    </header>
+
+<section class="featured" id="featured">
+    <div class="cart-container">
+        <h1 class="heading" style="font-size: 2.5em; margin-bottom: 20px;"> <span>Shopping Cart</span> </h1>
+
+        <table class="books-table">
+            <thead>
+                <tr>
+                    <th>Book Image</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for book in books %}
+                <tr>
+                    <td><img src="{{ url_for('static', filename=book[4]) }}" alt="{{book[1]}}" width="50"></td>
+                    <td>{{book[1]}}</td>
+                    <td>{{book[2]}}</td>
+                    <td>{{book[3]}}</td>
+
+                    <td>
+                        <input type="hidden" class="book-id" value="{{ book[0] }}">
+                        <button class="btn delete_from_cart">Remove</button>
+                    </td>
+                </tr>
+                {% endfor%}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">Total Amount:</td>
+                    <td colspan="2" id="cart-total">{{ "%.2f" % total }}</td>
+                </tr>
+            </tfoot>
+        </table>
+        <button class="checkout-btn">Proceed to Checkout</button>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Select the Proceed to Checkout button
+    const checkoutButton = document.querySelector('.checkout-btn');
+
+    checkoutButton.addEventListener('click', function (event) {
+        // Show a confirmation dialog
+        const userConfirmed = confirm("Are you sure you want to proceed to checkout?");
+
+        if (!userConfirmed) {
+            // Prevent default behavior if the user selects "No"
+            event.preventDefault();
+        } else {
+            // Collect all book IDs from the cart
+            const bookIds = [];
+            document.querySelectorAll('.book-id').forEach(bookInput => {
+                bookIds.push(bookInput.value);
+            });
+
+            // Perform a POST request to /orderplaced
+            fetch('/orderplaced', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ book_ids: bookIds }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Order placed successfully!');
+                    // Redirect to a thank you or order summary page if necessary
+<!--                    window.location.href = '/thankyou';-->
+                } else {
+                    alert('Failed to place order. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while placing the order.');
+            });
+        }
+    });
+
+    // Select all remove buttons
+    const deleteButtons = document.querySelectorAll('.delete_from_cart');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Find the row that contains the book ID
+            const bookRow = this.closest('tr');
+            const bookId = bookRow.querySelector('.book-id').value;
+
+            // Perform the fetch to remove the book from the cart
+            fetch('/delete_from_cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ book_id: bookId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Book deleted from cart!');
+                    // Remove the book row from the table after successful deletion
+                    bookRow.remove();
+                } else {
+                    alert('Failed to delete from cart.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred.');
+            });
+        });
+    });
+});
+
+
+</script>
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

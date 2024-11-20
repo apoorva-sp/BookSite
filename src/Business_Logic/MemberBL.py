@@ -115,6 +115,10 @@ class MemberBL:
     def get_mid(self,phone:str):
         data = self.mdb.get_mid(phone)
         return data
+
+    def get_info(self,phone:str):
+        data = self.mdb.getInfo(phone)
+        return data
 # m=Member( 'John Doe','1234567890', 'abcd1234', '123 Main St', 'Apt 4B', 'New York', 'NY', '10001', 'Fiction', 'Non-Fiction', 'Science Fiction')
 # mbl=MemberBL()
 # print(mbl.add_member(m))

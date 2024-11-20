@@ -30,7 +30,6 @@ class BookDB:
         try:
             dbTemp1 = dbConfig()
             tempcur = dbTemp1.con.cursor()
-            cursor= self.con.cursor()
             sql = "INSERT INTO books (title, author, description,price,image,seller_id) VALUES (%s,%s,%s,%s,%s,%s)"
             values = (b.title, b.author, b.description, b.price, file_path, b.seller_id)
             tempcur.execute(sql, values)
@@ -71,31 +70,31 @@ class BookDB:
             self.status = Status(Constants.status_id5, Constants.status_message5)
             return self.status
 
-    def DeleteBook(self, b: Books) -> Status:
+    def DeleteBook(self, bookid,seller) -> Status:
         try:
             cursor = self.con.cursor()
-            sql = """DELETE FROM books WHERE title = %s and seller_id = %s"""
-            values = (b.title, b.seller_id)
+            sql = """DELETE FROM books WHERE bID = %s and seller_id = %s"""
+            values = (bookid,seller)
             cursor.execute(sql, values)
             return self.status
         except Exception as e:
             self.status = Status(Constants.status_id5, Constants.status_message5)
             return self.status
 
-    def displayOneBook(self, b: Books):
+    def displayOneBook(self, bid):
         try:
             cursor = self.con.cursor()
-            sql = """SELECT * FROM books WHERE title = %s and seller_id = %s"""
-            values = (b.title, b.seller_id)
+            sql = """SELECT bID, title, author,price,image FROM books WHERE bID = %s"""
+            values = (bid,)
             cursor.execute(sql, values)
             result = cursor.fetchone()
             if result:
                 return result
             else:
-                self.status = Status(Constants.status_id4, Constants.status_message4)
+                return None
         except Exception as e:
             self.status = Status(Constants.status_id5, Constants.status_message5)
-            return self.status
+            return None
 
     def displaySearch(self, text: str) -> Status:
         cursor = self.con.cursor()
@@ -116,9 +115,26 @@ class BookDB:
             self.status = Status(Constants.status_id5, Constants.status_message5)
             return self.status.message
 
+    def mybooks(self,buyerid):
+        try:
+            cursor = self.con.cursor()
+            sql = """SELECT * FROM books where seller_id =%s"""
+            cursor.execute(sql,(buyerid,))
+            result = cursor.fetchall()
+            return result
+
+        except Exception as e:
+            print(e)
+            self.status = Status(600, "listing my books failed")
+            return self.status.message
+
 # dbcon = dbConfig()
-# b = Books("software comp 3","thripati","Book on Software Engineering",100,1,["horror","mystery","science"])
+#
+# b=Books("u","u","7",7,1,["fiction"])
 # bdb = BookDB(dbcon.con)
 # print(bdb.insertBook(b,"static/Book_Images/1/1.jpg"))
 # dbcon.commit()
 # print(bdb.displayPreferedBooks(["horror","children","science"]))
+# status=bdb.DeleteBook(b)
+# print(status.message)
+

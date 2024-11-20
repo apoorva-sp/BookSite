@@ -42,6 +42,7 @@ html::-webkit-scrollbar-thumb{
 
 section{
     padding:5rem 9%;
+    
 }
 
 .heading{
@@ -238,7 +239,7 @@ section{
 
 .home .row .content p{
     color:var(--light-color);
-    font-size: 1.4rem;
+    font-size: 4.4rem;
     line-height: 2;
     padding:1rem 0;
 }

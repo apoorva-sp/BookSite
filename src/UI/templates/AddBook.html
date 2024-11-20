@@ -5,8 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Books</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
 </head>
 <body>
+    <header class="header">
+
+    <div class="header-1">
+
+        <a href="#" class="logo"> <i class="fas fa-book"></i> Book Point </a>
+
+        <form action="/search_item" method="post" class="search-form">
+            <input type="search" name="Searched_item" placeholder="search here..." id="search-box">
+            <input type ="submit" for="search-box" class="fas fa-search">
+        </form>
+
+        <div class="icons">
+            <div id="search-btn" class="fas fa-search"></div>
+            <a href="/favorites" class="fas fa-heart"></a>
+            <a href="/profile" id="login-btn" class="fas fa-user"></a>
+        </div>
+
+    </div>
+
+    <div class="header-2">
+        <nav class="navbar">
+            <a href="/homepage">home</a>
+            <a href="{{ url_for('add_book_page') }}">Add Books</a>
+            <a href="/mybooks">My Books</a>
+        </nav>
+    </div>
+
+</header>
     <section class="add-books" id="add-books" style="padding: 40px; text-align: center;">
         <h1 class="heading" style="font-size: 2.5em; margin-bottom: 20px;"> <span>Add a Book</span> </h1>
 
@@ -85,5 +118,7 @@
         </form>
     </section>
 <!--<script type="text/javascript" src="{{ url_for('static', filename='scripts.js') }}"></script>-->
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

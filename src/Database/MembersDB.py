@@ -15,7 +15,7 @@ class MemberDB:
     def insert_member(self, m: Member) -> Status:
         try:
             cursor = self.con.cursor()
-            sql = ("INSERT INTO MEMBERS (phone,fullname,password,address_line_one,address_line_two,city," +
+            sql = ("INSERT INTO MEMBERS (phone,fullname,passkey,address_line_one,address_line_two,city," +
                    "state,pincode,preferenceOne,preferenceTwo,preferenceThree)" +
                    "VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);")
             password = md5(m.password.encode())
@@ -55,7 +55,7 @@ class MemberDB:
     def update_password(self, phone_number: str, new_password: str):
         try:
             cursor = self.con.cursor()
-            sql = "UPDATE MEMBERS SET password = (%s) WHERE phone = (%s);"
+            sql = "UPDATE MEMBERS SET passkey = (%s) WHERE phone = (%s);"
             password = md5(new_password.encode())
             values = (password.hexdigest(), phone_number)
             cursor.execute(sql, values)
@@ -68,8 +68,7 @@ class MemberDB:
                        pincode: str):
         try:
             cursor = self.con.cursor()
-            sql = ("UPDATE MEMBERS SET address_line_one = (%s), address_line_two = (%s), city = (%s)" +
-                   "state = (%s), pincode = (%s) WHERE phone = (%s);")
+            sql = """UPDATE MEMBERS SET address_line_one = (%s), address_line_two = (%s), city = (%s) ,state = (%s), pincode = (%s) WHERE phone = (%s);"""
             values = (address_line_one, address_line_two, city, state, pincode, phone_number)
             cursor.execute(sql, values)
         except Exception as e:

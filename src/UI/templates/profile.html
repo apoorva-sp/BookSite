@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
+
+    <link rel="stylesheet" href="{{ url_for('static',filename='profile.css')}}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+
+        <div class="header-1">
+    
+            <a href="#" class="logo"> <i class="fas fa-book"></i> Book Point </a>
+    
+            <form action="/search_item" method="post" class="search-form">
+                <input type="search" name="Searched_item" placeholder="search here..." id="search-box">
+                <input type ="submit" for="search-box" class="fas fa-search">
+            </form>
+    
+            <div class="icons">
+                <div id="search-btn" class="fas fa-search"></div>
+                <a href="/favorites" class="fas fa-heart"></a>
+                <a href="/profile" id="login-btn" class="fas fa-user"></a>
+            </div>
+    
+        </div>
+    
+        <div class="header-2">
+            <nav class="navbar">
+                <a href="/homepage">home</a>
+                <a href="{{ url_for('add_book_page') }}">Add Books</a>
+                <a href="/mybooks">My Books</a>
+            </nav>
+        </div>
+    
+    </header>
+
+<section class="featured" id="featured">
+    <div class="profile-display" id="profileDisplay">
+        <div class="profile-info">
+            <div class="info-group">
+                <label>Full Name</label>
+                <span>{{data[2]}}</span>
+            </div>
+            <div class="info-group">
+                <label>Phone Number</label>
+                <span>{{data[1]}}</span>
+            </div>
+            <div class="info-group">
+                <label>Address Line 1</label>
+                <span> {{data[4]}}</span>
+            </div>
+            <div class="info-group">
+                <label>Address Line 2</label>
+                <span>{{data[5]}}</span>
+            </div>
+            <div class="info-group">
+                <label>City</label>
+                <span>{{data[6]}}</span>
+            </div>
+            <div class="info-group">
+                <label>State</label>
+                <span>{{data[7]}}</span>
+            </div>
+            <div class="info-group">
+                <label>Pincode</label>
+                <span>{{data[8]}}</span>
+            </div>
+        </div>
+        <div class="info-group">
+            <label>Reading Preferences</label>
+            <span>{{ data[12] }}</span>
+        </div>
+        <a class="edit-btn" href="/editprofile">Edit Profile</a>
+</section>
+
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,111 @@
+.header {
+    background-color: white; /* White header background */
+    border-bottom: 2px solid #27ae60; /* Green bottom border */
+}
+
+.header-1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.header-1 .logo {
+    font-size: 24px;
+    color: #27ae60;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.icons {
+    display: flex;
+    gap: 20px;
+}
+
+.icons .fas {
+    font-size: 20px;
+    color: #27ae60;
+    cursor: pointer;
+}
+
+.header-2 {
+    background-color: #27ae60; /* Green background for navbar */
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    padding: 15px 0;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* Section Styles */
+.profile-container {
+    background-color: white; /* White background */
+    border: 2px solid b; /* Green border */
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    font-size: 150%;
+}
+
+.profile-container h2 {
+    text-align: center;
+    color: black;
+    margin-bottom: 20px;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    size: 18px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: black;
+}
+
+.form-group input,
+.form-group select {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 14px;
+    background-color: #f9fff9;
+}
+
+button[type="submit"] {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color:#27ae60; /* Darker green */
+}

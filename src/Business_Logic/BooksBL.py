@@ -102,8 +102,8 @@ class BooksBL:
             self.status = Status(self.c.status_id9,self.c.status_message9)
             return self.status
 
-    def DeleteBook(self,b:Books)->Status:
-        self.status=self.bdb.DeleteBook(b)
+    def DeleteBook(self,bookid,seller)->Status:
+        self.status=self.bdb.DeleteBook(bookid,seller)
         if self.status.statusId==0:
             self.db.commit()
         else:
@@ -124,3 +124,10 @@ class BooksBL:
 
         cursor.close()
         return preferences
+    def mybooks(self,buyer_id):
+        books=self.bdb.mybooks(buyer_id)
+        return books
+
+# bbl=BooksBL()
+# status = bbl.DeleteBook(69,1)
+# print(status.message)

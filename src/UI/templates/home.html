@@ -36,9 +36,9 @@
 
     <div class="header-2">
         <nav class="navbar">
-            <a href="#home">home</a>
-            <a href="#featured">featured</a>
+            <a href="/home">home</a>
             <a href="{{ url_for('add_book_page') }}">Add Books</a>
+            <a href="/mybooks">My Books</a>
         </nav>
     </div>
 
@@ -68,7 +68,8 @@
                                     <p class="price-label">Price: </p>
                                     <p class="current-price">${{ book[3] }}</p> <!-- Price -->
                                 </div>
-                                <a href="#" class="btn">Add to cart</a>
+                                <input type="hidden" class="book-id" value="{{ book[0] }}">
+                                <button class="btn add-to-cart">Add to cart</button>
                             </div>
                         </div>
                     {% endfor %}
@@ -81,35 +82,35 @@
 </section>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const radioButtons = document.querySelectorAll('input[type="radio"]');
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function () {
+            const bookCard = this.closest('.content');
+            const bookId = bookCard.querySelector('.book-id').value;
 
-    const prices = {
-        buy: {
-            current: 15.99,
-            original: 20.99
-        },
-        rent: {
-            current: 8.99,
-            original: 12.99
-        }
-    };
-    radioButtons.forEach(radio => {
-        radio.addEventListener('change', function() {
-            const content = this.closest('.content');
-            const currentPriceElement = content.querySelector('.current-price');
-            const originalPriceElement = content.querySelector('.original-price');
-            const value = this.value;
-            if (value === 'buy') {
-                currentPriceElement.textContent = `$${prices.buy.current}`;
-                originalPriceElement.textContent = `$${prices.buy.original}`;
-            } else {
-                currentPriceElement.textContent = `$${prices.rent.current}`;
-                originalPriceElement.textContent = `$${prices.rent.original}`;
-            }
+            // Use Fetch API or form submission to send bookId to the backend
+            fetch('/add_to_cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ book_id: bookId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Book added to cart!');
+                } else {
+                    alert('Failed to add book to cart.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         });
     });
 });
+
 </script>
 
 

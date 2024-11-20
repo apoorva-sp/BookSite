@@ -1,0 +1,71 @@
+
+/* My Books Section */
+.my-books {
+    padding: 50px 20px;
+    background-color: #e8f5e9; /* Light green background */
+    font-size: 150%;
+}
+
+.books-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.book-item {
+    background-color: white; /* White background for book item */
+    border: 2px solid #077133; /* Green border */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 20px;
+}
+
+.book-item img {
+    width: 80px;
+    height: auto;
+    border-radius: 4px; /* Rounded corners for images */
+}
+
+.book-info {
+    flex: 1;
+}
+
+.book-info h3 {
+    color: #0c803c; /* Green title */
+    margin-bottom: 10px;
+}
+
+.book-info p {
+    margin: 5px 0;
+}
+
+.book-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Buttons */
+.edit-btn, .remove-btn {
+    background-color: #27ae60; /* Green button background */
+    color: white; /* White text */
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.remove-btn {
+    background-color: #f44336; /* Red background for Remove button */
+}
+
+.remove-btn:hover {
+    background-color: #e53935; /* Darker red on hover */
+}

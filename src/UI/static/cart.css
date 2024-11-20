@@ -1,0 +1,90 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e8f5e9; /* Light green background */
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+
+
+
+.icons {
+    display: flex;
+    gap: 10px;
+}
+
+.icons .fas {
+    font-size: 20px;
+    color: #27ae60;
+    cursor: pointer;
+}
+
+
+
+/* Cart Section */
+.cart-container {
+    background-color: white; /* White background */
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 40px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    font-size: 150%;
+}
+
+.cart-container h2 {
+    text-align: center;
+    color: #27ae60; /* Green heading */
+    margin-bottom: 20px;
+}
+
+/* Table Styles */
+.books-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.books-table th,
+.books-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid black; /* Green border for table cells */
+}
+
+.books-table th {
+    background-color: #27ae60; /* Green background for table header */
+    color: white; /* White text */
+}
+
+.books-table td img {
+    border-radius: 4px; /* Rounded corners for images */
+}
+
+tfoot td {
+    font-weight: bold;
+    color: black; /* Green text for total */
+    text-align: right;
+}
+
+/* Buttons */
+button,
+.checkout-btn {
+    background-color: #27ae60; /* Green background */
+    color: white; /* White text */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover,
+.checkout-btn:hover {
+    background-color: #45a049; /* Darker green */
+    transform: translateY(-2px); /* Lift effect */
+}

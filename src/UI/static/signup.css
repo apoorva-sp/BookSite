@@ -1,0 +1,93 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e8f5e9; /* Light green background */
+    margin: 0;
+    padding: 0;
+}
+
+/* Container Styles */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #e8f5e9; /* Light green background */
+    padding: 20px;
+    font-size: 150%;
+}
+
+/* Form Styles */
+.auth-form {
+    background-color: white; /* White background for the form */
+    border: 2px ; /* Green border */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-form h2 {
+    text-align: center;
+    color: black; /* Green heading text */
+    margin-bottom: 20px;
+}
+
+/* Input Styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    color: black; /* Green label text */
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input, 
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid  ; /* Green border */
+    border-radius: 5px;
+    background-color: #f9fff9; /* Light green input background */
+    color: #333; /* Dark input text */
+}
+
+/* Button Styles */
+button[type="submit"] {
+    background-color: #27ae60; /* Green button background */
+    color: white; /* White button text */
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Link Styles */
+.auth-form a {
+    color: #27ae60; /* Green link text */
+    text-decoration: none;
+}
+
+.auth-form a:hover {
+    text-decoration: underline;
+}
+
+/* Message Styles */
+.auth-form p {
+    text-align: center;
+    color: #333;
+    margin-top: 15px;
+}
