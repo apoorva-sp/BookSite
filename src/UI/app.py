@@ -103,9 +103,12 @@ def add_book_page():
 def search_item():
     bookname = request.form['Searched_item']
 
-    # funtions to retrive searched book
+    if bookname:
+        bbl = BooksBL()
+        books = bbl.search(bookname)
 
-    return render_template('Searched_page.html')
+        return render_template('search.html',books = books)
+    return render_template('home.html')
 
 @app.route('/deletebook', methods=['POST'])
 def delete_book():

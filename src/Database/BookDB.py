@@ -105,7 +105,7 @@ class BookDB:
 
     def displaySearch(self, text: str) -> Status:
         cursor = self.con.cursor()
-        sql = "SELECT * FROM books WHERE name REGEXP %s ;"
+        sql = "SELECT * FROM books WHERE title REGEXP %s ;"
         cursor.execute(sql, (text,))
         result = cursor.fetchall()
         return result

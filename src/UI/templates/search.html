@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Books</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='mybooks.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+    <title>search</title>
+</head>
+<body>
+    <header class="header">
+
+    <div class="header-1">
+
+        <a href="#" class="logo"> <i class="fas fa-book"></i> Book Point </a>
+
+        <form action="/search_item" method="post" class="search-form">
+            <input type="search" name="Searched_item" placeholder="search here..." id="search-box">
+            <input type ="submit" for="search-box" class="fas fa-search">
+        </form>
+
+        <div class="icons">
+            <div id="search-btn" class="fas fa-search"></div>
+            <a href="/favorites" class="fas fa-heart"></a>
+            <a href="/profile" id="login-btn" class="fas fa-user"></a>
+        </div>
+
+    </div>
+
+    <div class="header-2">
+        <nav class="navbar">
+            <a href="/homepage">home</a>
+            <a href="{{ url_for('add_book_page') }}">Add Books</a>
+            <a href="/mybooks">My Books</a>
+        </nav>
+    </div>
+
+</header>
+    <section class="my-books" id="my-books">
+        <h1 class="heading" style="font-size: 2.5em; margin-bottom: 20px;"> <span>Results</span> </h1>
+        <div class="books-container">
+
+            {% for book in books %}
+            <div class="book-item">
+                <img src="{{ url_for('static', filename=book[5]) }}" alt="{{book[5]}}" class="book-image">
+                <div class="book-info">
+                    <h3>{{ book[1] }}</h3>
+                    <p>Author: {{ book[2] }}</p>
+                    <p>Price: ${{ book[4] }}</p>
+                    <div class="book-actions">
+                        <input type="hidden" class="book-id" value="{{ book[0] }}">
+                        <button class="btn add-to-cart">Add to cart</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </section>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function () {
+            const bookCard = this.closest('.book-item');
+            const bookId = bookCard.querySelector('.book-id').value;
+
+            // Use Fetch API or form submission to send bookId to the backend
+            fetch('/add_to_cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ book_id: bookId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Book added to cart!');
+                } else {
+                    alert('Failed to add book to cart.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+});
+
+</script>
+</body>
+</html>

@@ -94,9 +94,10 @@ class BooksBL:
     def search(self,name):
         if name == "":
             self.status = Status(Constants.status_id11,Constants.status_message11)
+            return self.status
         else:
-            self.status = self.bdb.displaySearch(name)
-        return self.status
+            book = self.bdb.displaySearch(name)
+        return book
 
 
     def UpdatePrice(self,bookid,NewPrice)->Status:

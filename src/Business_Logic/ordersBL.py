@@ -29,7 +29,8 @@ class OrdersBL:
             db = dbConfig()
             ODB = OrdersDB(db.con)
             BDB = BookDB(db.con)
-            if BuyerId == BDB.getSellerId(BookId):
+            sid = BDB.getSellerId(BookId)
+            if sid != None and BuyerId == sid:
                 self.status = Status(81,"Seller and Buyer cant be same person")
             else:
                 self.status = ODB.insertOrder(BuyerId,BookId)
