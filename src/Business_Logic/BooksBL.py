@@ -32,13 +32,22 @@ class BooksBL:
                 path_to_store = f"Book_Images/{id_of_user}/{filename}"
 
                 file_path = os.path.join(user_folder, filename)
+                print("file path", file_path)
+                print("path to store", path_to_store)
                 name, extension = os.path.splitext(filename)
                 base, extension = os.path.splitext(file_path)
+                print("base name",base)
+
+                print("name",name)
+                print("extension",extension)
                 i = 1
                 while os.path.exists(file_path):
                     file_path = f"{base}_{i}{extension}"
                     path_to_store = f"Book_Images/{id_of_user}/{name}_{i}{extension}"
                     i += 1
+                print("file path",file_path)
+                print("path to store",path_to_store)
+
                 image.save(file_path)
 
                 # Insert book details into the database
@@ -70,8 +79,8 @@ class BooksBL:
                         self.db.rollback()
             else:
                 self.status = Status(self.c.status_id3, self.c.status_message3)
-
-            if self.status.statusId !=0:
+            print("msg above roll back",self.status)
+            if self.status.statusId !=0 :
                 print("images is deleted due to roll back")
                 os.remove(file_path)
 

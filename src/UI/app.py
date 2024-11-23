@@ -157,7 +157,12 @@ def favorites():
     CBL = CartBL()
     books=CBL.get_books(buyer_id)
     print(books)
-    total = sum(book[3] for book in books)
+    if books is None:
+        books = []
+        total=0
+    else:
+
+        total = sum(book[3] for book in books)
     return render_template('cart.html' ,books=books , total=total)
 
 @app.route('/delete_from_cart', methods=['POST'])
