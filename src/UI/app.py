@@ -99,6 +99,32 @@ def delete_book():
     except Exception as e:
         print(e)
         return jsonify(success=False, message="An error occurred.")
+
+@app.route('/editbook', methods=['POST'])
+def edit_book():
+    try:
+        book_id = request.form.get('book_id')
+        price = request.form.get('price')
+        print(price)
+        image = request.files.get('image')
+        if book_id:
+            if price:
+                bbl = BooksBL()
+                status = bbl.UpdatePrice(book_id,int(price))
+            if image:
+                bbl = BooksBL()
+                userid = session.get('mid')
+                status = bbl.UpdateImage(userid,book_id,image)
+            if status.statusId==0:
+                return jsonify(success=True)
+            else:
+                return jsonify(success=False, message=status.message)
+
+        else:
+            return jsonify(success=False, message="Book ID is required.")
+    except Exception as e:
+        print(f"Error updating book: {e}")
+        return jsonify(success=False)
 @app.route('/favorites')
 def favorites():
     buyer_id = int(session['mid'])
@@ -174,7 +200,7 @@ def update_profile():
 
     if preference_one or preference_two or preference_three:
 
-        if len({preference_one, preference_two, preference_three}) < 3:
+        if len(set([preference_one, preference_two, preference_three])) < 3:
             return render_template('editprofile.html', error="Must select all three preferences.")
         else:
             mbl = MemberBL()

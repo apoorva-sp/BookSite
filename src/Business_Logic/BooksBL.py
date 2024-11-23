@@ -90,9 +90,9 @@ class BooksBL:
         return self.status
 
 
-    def UpdatePrice(self,b:Books,NewPrice)->Status:
+    def UpdatePrice(self,bookid,NewPrice)->Status:
         if NewPrice:
-            self.status=self.bdb.UpdatePrice(b,NewPrice)
+            self.status=self.bdb.UpdatePrice(bookid,NewPrice)
             if self.status.statusId==0:
                 self.db.commit()
             else:
@@ -101,6 +101,39 @@ class BooksBL:
         else:
             self.status = Status(self.c.status_id9,self.c.status_message9)
             return self.status
+
+    def UpdateImage(self,userid,bookid, image)->Status:
+        try:
+            if image.filename == '':
+                self.status = Status(self.c.status_id1, self.c.status_message1)
+                return self.status
+            elif image.filename:
+                filename = secure_filename(image.filename)
+                UPLOAD_FOLDER = os.path.join('static', 'Book_Images')
+                user_folder = os.path.join(UPLOAD_FOLDER, str(userid))
+                path_to_store = f"Book_Images/{userid}/{filename}"
+                file_path = os.path.join(user_folder, filename)
+                name, extension = os.path.splitext(filename)
+                base, extension = os.path.splitext(file_path)
+                i = 1
+                while os.path.exists(file_path):
+                    file_path = f"{base}_{i}{extension}"
+                    path_to_store = f"Book_Images/{userid}/{name}_{i}{extension}"
+                    i += 1
+                image.save(file_path)
+
+                self.status = self.bdb.updateimage(bookid, path_to_store)
+                if self.status.statusId == 0:
+                    self.db.commit()
+
+                else:
+                    self.db.rollback()
+                    self.status= Status(510,"Failed to update image")
+                return self.status
+        except Exception as e:
+            print(e)
+            self.status = Status(511, "Error occured while updating image")
+        return self.status
 
     def DeleteBook(self,bookid,seller)->Status:
         self.status=self.bdb.DeleteBook(bookid,seller)

@@ -54,17 +54,24 @@ class BookDB:
             self.status = Status(Constants.status_id2, Constants.status_message2)
             print(e)
         return self.status
-
-    def UpdatePrice(self, b: Books, NewPrice) -> Status:
+    def updateimage(self, bookid, filepath)->Status:
         try:
             cursor = self.con.cursor()
-            BookID = self.GetBookID(b.title, b.seller_id)
-            if BookID:
-                sql = """UPDATE books SET price = %s WHERE bId = %s"""
-                values = (NewPrice, BookID)
-                cursor.execute(sql, values)
-            else:
-                self.status = Status(Constants.status_id4, Constants.status_message4)
+            sql = "update books set image = %s where bID = %s "
+            values = (filepath, bookid)
+            cursor.execute(sql,values)
+            return self.status
+        except Exception as e:
+            self.status = Status(512,"error occured while updating the database")
+            return self.status
+
+
+    def UpdatePrice(self, bookid, NewPrice) -> Status:
+        try:
+            cursor = self.con.cursor()
+            sql = """UPDATE books SET price = %s WHERE bID = %s"""
+            values = (NewPrice, bookid)
+            cursor.execute(sql, values)
             return self.status
         except Exception as e:
             self.status = Status(Constants.status_id5, Constants.status_message5)
@@ -128,12 +135,12 @@ class BookDB:
             self.status = Status(600, "listing my books failed")
             return self.status.message
 
-    def getSellerId(self,BookId):
+    def getSellerId(self, BookId):
         cur = self.con.cursor()
         sql = """
             SELECT seller_id from books where bID = %s;
         """
-        cur.execute(sql,(BookId,))
+        cur.execute(sql, (BookId,))
         return cur.fetchone()[0]
 
     def deleteBookOnId(self, bookid) -> Status:
@@ -148,19 +155,12 @@ class BookDB:
         return self.status
 
 # dbcon = dbConfig()
-# # b=Books("u","u","7",7,1,["fiction"])
+#
+# b=Books("u","u","7",7,1,["fiction"])
 # bdb = BookDB(dbcon.con)
-# print(bdb.getSellerID(4))
-# # print(bdb.insertBook(b,"static/Book_Images/1/1.jpg"))
+# print(bdb.insertBook(b,"static/Book_Images/1/1.jpg"))
 # dbcon.commit()
 # print(bdb.displayPreferedBooks(["horror","children","science"]))
 # status=bdb.DeleteBook(b)
 # print(status.message)
-# s = bdb.deleteBookOnId(4)
-# print(s)
-# if s.statusId == 0:
-#     dbcon.commit()
-# else:
-#     dbcon.rollback()
-
 

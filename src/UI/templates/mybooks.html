@@ -1,37 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Books - Book Store</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='style.css')}}">
-
-    <link rel="stylesheet" href="{{ url_for('static',filename='mybooks.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='mybooks.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .edit-form-container {
+    position: fixed; /* Fixed position to center it on the screen */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Shift the form to the center */
+    width: 100%;
+    max-width: 400px; /* Set a maximum width for the form */
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 8px; /* Optional: Rounded corners for a better look */
+    font-size: 16px;
+}
+
+.edit-form-container input[type="number"],
+.edit-form-container input[type="file"],
+.edit-form-container button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.edit-form-container button {
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+    border: none;
+    margin:3px;
+}
+
+.edit-form-container button:hover {
+    background: #0056b3;
+}
+
+.cancel-edit-btn {
+    background: #dc3545;
+}
+
+.cancel-edit-btn:hover {
+    background: #c82333;
+}
+.edit-form-container button {
+    background: #27ae60; /* Apply the green color */
+    color: white;
+    cursor: pointer;
+    border: none;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background 0.3s ease; /* Smooth hover effect */
+}
+
+.edit-form-container button:hover {
+    background: #1e874b; /* Slightly darker shade for hover */
+}
+
+.cancel-edit-btn {
+    background: #dc3545; /* Keep the cancel button red */
+}
+
+.cancel-edit-btn:hover {
+    background: #c82333;
+}
+
+    </style>
 </head>
+
 <body>
 
     <header class="header">
-
         <div class="header-1">
-    
             <a href="#" class="logo"> <i class="fas fa-book"></i> Book Point </a>
-    
             <form action="/search_item" method="post" class="search-form">
                 <input type="search" name="Searched_item" placeholder="search here..." id="search-box">
-                <input type ="submit" for="search-box" class="fas fa-search">
+                <input type="submit" for="search-box" class="fas fa-search">
             </form>
-    
             <div class="icons">
                 <div id="search-btn" class="fas fa-search"></div>
                 <a href="/favorites" class="fas fa-heart"></a>
                 <a href="/profile" id="login-btn" class="fas fa-user"></a>
             </div>
-    
         </div>
-    
         <div class="header-2">
             <nav class="navbar">
                 <a href="/homepage">home</a>
@@ -39,71 +107,131 @@
                 <a href="/mybooks">My Books</a>
             </nav>
         </div>
-    
     </header>
 
-<section class="my-books" id="my-books">
-    <h1 class="heading" style="font-size: 2.5em; margin-bottom: 20px;"> <span>My Books</span> </h1>
-    <div class="books-container">
+    <section class="my-books" id="my-books">
+        <h1 class="heading" style="font-size: 2.5em; margin-bottom: 20px;"> <span>My Books</span> </h1>
+        <div class="books-container">
 
-        {% for book in books %}
-        <div class="book-item">
-            <img src="{{ url_for('static', filename=book[5]) }}" alt="{{book[5]}}" class="book-image">
-            <div class="book-info">
-                <h3>{{book[1]}}</h3>
-                <p>Author: {{book[2]}}</p>
-                <p>Price: {{book[4]}}</p>
-                <div class="book-actions">
-                    <input type="hidden" class="book-id" value="{{ book[0] }}">
-                    <a href="/editbook" class="edit-btn">Edit</a>
-                    <button class="remove-btn">Remove</button>
+            {% for book in books %}
+            <div class="book-item">
+                <img src="{{ url_for('static', filename=book[5]) }}" alt="{{book[5]}}" class="book-image">
+                <div class="book-info">
+                    <h3>{{ book[1] }}</h3>
+                    <p>Author: {{ book[2] }}</p>
+                    <p>Price: ${{ book[4] }}</p>
+                    <div class="book-actions">
+                        <input type="hidden" class="book-id" value="{{ book[0] }}">
+                        <button class="edit-btn">Edit</button>
+                        <button class="remove-btn">Remove</button>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
+
         </div>
-        {% endfor %}
+    </section>
 
+    <!-- Edit Form (Outside the Loop) -->
+    <div class="edit-form-container" style="display: none;">
+        <form class="edit-form" id="editForm">
+            <label for="edit-price">Price:</label>
+            <input type="number" id="edit-price" name="price" class="edit-price" step="0.01">
+            <label for="edit-image">Image:</label>
+            <input type="file" id="edit-image" name="image" class="edit-image">
+            <input type="hidden" name="book_id" id="edit-book-id" class="edit-book-id">
+            <button type="submit" class="save-edit-btn">Save</button><br>
+            <button type="button" class="cancel-edit-btn">Cancel</button>
+        </form>
     </div>
-</section>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-    const deleteButtons = document.querySelectorAll('.remove-btn');
 
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            // Find the row that contains the book ID
-            const bookRow = this.closest('.book-item');
-            const bookId = bookRow.querySelector('.book-id').value;
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Handle Book Deletion
+            const handleDelete = (bookRow, bookId) => {
+                bookRow.style.opacity = "0.5";
 
-            bookRow.style.opacity = "0.5";
-            // Perform the fetch to remove the book from the cart
-            fetch('/deletebook', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ book_id: bookId }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Book deleted successfully!');
-                    // Remove the book row from the table after successful deletion
-                    bookRow.remove();
-                } else {
-                    alert('Failed to delete book.');
-                    bookRow.style.opacity = "1";
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred.');
-                bookRow.style.opacity = "1";
+                fetch('/deletebook', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ book_id: bookId }),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Book deleted successfully!');
+                            bookRow.remove();
+                        } else {
+                            alert('Failed to delete book.');
+                            bookRow.style.opacity = "1";
+                        }
+                    })
+                    .catch(() => {
+                        alert('An error occurred.');
+                        bookRow.style.opacity = "1";
+                    });
+            };
+
+            // Handle Book Edit
+            const handleEdit = (form) => {
+                const formData = new FormData(form);
+
+                fetch('/editbook', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Book updated successfully!');
+                            location.reload();
+                        } else {
+                            alert('Failed to update book.');
+                        }
+                    })
+                    .catch(() => {
+                        alert('An error occurred while updating the book.');
+                    });
+            };
+
+            // Initialize Edit and Remove Buttons
+            document.querySelectorAll('.remove-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const bookRow = button.closest('.book-item');
+                    const bookId = bookRow.querySelector('.book-id').value;
+
+                    if (confirm('Are you sure you want to delete this book?')) {
+                        handleDelete(bookRow, bookId);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.edit-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const bookItem = button.closest('.book-item');
+                    const bookId = bookItem.querySelector('.book-id').value;
+
+                    // Set the book_id in the form and show the form
+                    document.getElementById('edit-book-id').value = bookId;
+
+
+                    // Show the edit form
+                    document.querySelector('.edit-form-container').style.display = 'block';
+                });
+            });
+
+            document.getElementById('editForm').addEventListener('submit', event => {
+                event.preventDefault();
+                handleEdit(event.target);
+            });
+
+            // Cancel the edit form
+            document.querySelector('.cancel-edit-btn').addEventListener('click', () => {
+                document.querySelector('.edit-form-container').style.display = 'none';
             });
         });
-    });
-});
-</script>
-<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
-<script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+    </script>
+
 </body>
+
 </html>
