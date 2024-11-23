@@ -43,6 +43,7 @@ def home():
             session['mid'] = mID[0]
             data = [preferenceone,preferencetwo,preferencethree]
             pref_list = BBL.displayPreferedBooks(data)
+
             return render_template("home.html", preferences=pref_list)
     except Exception as  e:
         print(e)
