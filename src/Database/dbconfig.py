@@ -131,6 +131,11 @@ class dbConfig:
         except Exception as e:
             print(e)
 
+    def commitWithoutClosing(self):
+        try:
+            self.con.commit()
+        except Exception as e:
+            print(e)
 
 # dbConfig.destroyAll()
 # dbConfig.initialize()

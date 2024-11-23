@@ -32,8 +32,12 @@ class OrdersBL:
                 self.status = Status(81,"Seller and Buyer cant be same person")
             else:
                 self.status = ODB.insertOrder(BuyerId,BookId)
-            if self.status.statusId != 0:
-                break
+
+            if self.status.statusId == 0:
+                self.db.commitWithoutClosing()
+            else:
+                print("ERROR WITH BOOK ID",BookId)
+
         if self.status.statusId == 0:
             self.db.commit()
         else:
