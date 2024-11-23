@@ -24,6 +24,21 @@ class OrdersBL:
             self.db.rollback()
         return self.status
 
+    def placeOrders(self,BuyerId,booksIds):
+        ODB = OrdersDB(self.db.con)
+        BDB = BookDB(self.db.con)
+        for BookId in booksIds:
+            if BuyerId == BDB.getSellerId(BookId):
+                self.status = Status(81,"Seller and Buyer cant be same person")
+            else:
+                self.status = ODB.insertOrder(BuyerId,BookId)
+            if self.status.statusId != 0:
+                break
+        if self.status.statusId == 0:
+            self.db.commit()
+        else:
+            self.db.rollback()
+            self.status = Status(82, "Book Adding to Cart error")
 
 # OBL = OrdersBL()
 # print(OBL.placeOrder(2,1))
