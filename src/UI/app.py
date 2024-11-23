@@ -1,5 +1,6 @@
 from flask import Flask, request,session,jsonify, render_template, redirect, url_for
 from src.Beans.Books import Books
+from src.Beans.Member import Member
 from src.Business_Logic.BooksBL import BooksBL
 from src.Business_Logic.MemberBL import MemberBL
 from src.Business_Logic.ordersBL import OrdersBL
@@ -21,6 +22,30 @@ def signup():
 def home():
     MBL = MemberBL()
     BBL = BooksBL()
+    try:
+        if request.form['fullname'] != "":
+            phonenumber = request.form['number']
+            password = request.form['password']
+            fullname = request.form['fullname']
+            addressline1 = request.form['addressline1']
+            addressline2 = request.form['addressline2']
+            city = request.form['city']
+            state = request.form['state']
+            pincode = request.form['pincode']
+            preferenceone = request.form['preferenceone']
+            preferencetwo = request.form['preferencetwo']
+            preferencethree = request.form['preferencethree']
+            m = Member(fullname,phonenumber,password,addressline1,addressline2,city,state,pincode,preferenceone,preferencetwo,preferencethree)
+            MBL.signUp(m)
+            mbl = MemberBL()
+            mID = mbl.get_mid(phonenumber)
+            session['phone_number'] = phonenumber
+            session['mid'] = mID[0]
+            data = [preferenceone,preferencetwo,preferencethree]
+            pref_list = BBL.displayPreferedBooks(data)
+            return render_template("home.html", preferences=pref_list)
+    except Exception as  e:
+        print(e)
     phonenumber = request.form['number']
     password = request.form['password']
     validity = MBL.login(phonenumber,password)

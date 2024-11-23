@@ -12,7 +12,7 @@ class MemberBL:
         self.db = dbConfig()
         self.mdb = MemberDB(self.db.con)
 
-    def add_member(self, m1: Member) -> Status:
+    def signUp(self, m1: Member) -> Status:
         if len(m1.phone) != 10:
             self.status = Status(Constants.status_id57, Constants.status_message57)
         elif m1.preference1 == "":
