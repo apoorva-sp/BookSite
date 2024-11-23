@@ -174,7 +174,7 @@ def update_profile():
 
     if preference_one or preference_two or preference_three:
 
-        if len(set([preference_one, preference_two, preference_three])) < 3:
+        if len({preference_one, preference_two, preference_three}) < 3:
             return render_template('editprofile.html', error="Must select all three preferences.")
         else:
             mbl = MemberBL()

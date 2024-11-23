@@ -119,7 +119,8 @@ class MemberBL:
     def get_info(self,phone:str):
         data = self.mdb.getInfo(phone)
         return data
-# m=Member( 'John Doe','1234567890', 'abcd1234', '123 Main St', 'Apt 4B', 'New York', 'NY', '10001', 'Fiction', 'Non-Fiction', 'Science Fiction')
+# m=Member( 'John Doe','1234567890', 'securepassword123', '123 Main St', 'Apt 4B', 'New York', 'NY', '10001', 'Fiction', 'Non-Fiction', 'Science Fiction')
+# m1=Member( 'Ramsey','1234567891', 'abcd1234', '123 Main St', 'Apt 4A', 'Texas', 'Texas', '10001', 'Fiction', 'Non-Fiction', 'Science')
 # mbl=MemberBL()
-# print(mbl.add_member(m))
+# print(mbl.add_member(m1))
 # print(mbl.login("1234567890","securepassword123"))

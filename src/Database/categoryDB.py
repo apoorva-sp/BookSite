@@ -59,6 +59,11 @@ class Category:
             self.status=Status(Constants.status_id2,Constants.status_message2)  
         return self.status
 
+    def getAllCategories(self):
+        cursor = self.con.cursor()
+        sql = "SELECT category FROM category;"
+        cursor.execute(sql)
+        return cursor.fetchone()
 
 
 

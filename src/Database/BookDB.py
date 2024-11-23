@@ -128,13 +128,39 @@ class BookDB:
             self.status = Status(600, "listing my books failed")
             return self.status.message
 
+    def getSellerId(self,BookId):
+        cur = self.con.cursor()
+        sql = """
+            SELECT seller_id from books where bID = %s;
+        """
+        cur.execute(sql,(BookId,))
+        return cur.fetchone()[0]
+
+    def deleteBookOnId(self, bookid) -> Status:
+        try:
+            cursor = self.con.cursor()
+            sql = """DELETE FROM books WHERE bID = %s;"""
+            values = (bookid,)
+            cursor.execute(sql, values)
+        except Exception as e:
+            print(e)
+            self.status = Status(Constants.status_id5, Constants.status_message5)
+        return self.status
+
 # dbcon = dbConfig()
-#
-# b=Books("u","u","7",7,1,["fiction"])
+# # b=Books("u","u","7",7,1,["fiction"])
 # bdb = BookDB(dbcon.con)
-# print(bdb.insertBook(b,"static/Book_Images/1/1.jpg"))
+# print(bdb.getSellerID(4))
+# # print(bdb.insertBook(b,"static/Book_Images/1/1.jpg"))
 # dbcon.commit()
 # print(bdb.displayPreferedBooks(["horror","children","science"]))
 # status=bdb.DeleteBook(b)
 # print(status.message)
+# s = bdb.deleteBookOnId(4)
+# print(s)
+# if s.statusId == 0:
+#     dbcon.commit()
+# else:
+#     dbcon.rollback()
+
 

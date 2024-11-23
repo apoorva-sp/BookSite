@@ -21,9 +21,9 @@ class dbConfig:
                             mID INT PRIMARY KEY AUTO_INCREMENT,
                             phone VARCHAR(20) UNIQUE NOT NULL,
                             fullname VARCHAR(20) NOT NULL,
-                            password VARCHAR(32) NOT NULL,
-                            address_line_one VARCHAR(30) NOT NULL,
-                            address_line_two VARCHAR(30),
+                            passkey VARCHAR(32) NOT NULL,
+                            addressLineOne VARCHAR(30) NOT NULL,
+                            addressLineTwo VARCHAR(30),
                             city VARCHAR(30) NOT NULL,
                             state VARCHAR(30) NOT NULL,
                             pincode VARCHAR(10) NOT NULL,
@@ -49,10 +49,10 @@ class dbConfig:
             sql.append(""" 
                         CREATE TABLE IF NOT EXISTS orders(
                             orderID INT AUTO_INCREMENT PRIMARY KEY,
-                            buyerID INT,
-                            sellerID INT,
-                            bookID INT,
-                            orderDate DATE NOT NULL,
+                            buyerID INT NOT NULL, 
+                            sellerID INT NOT NULL,
+                            bookID INT NOT NULL,
+                            orderDate TEXT NOT NULL,
                             amount INT NOT NULL,
                             ShippingAddress VARCHAR(256) NOT NULL,
                             DeliveryAddress VARCHAR(256) NOT NULL,
@@ -60,9 +60,6 @@ class dbConfig:
                                 ON DELETE CASCADE 
                                 ON UPDATE CASCADE,
                             FOREIGN KEY (sellerID) REFERENCES members(mID) 
-                                ON DELETE CASCADE 
-                                ON UPDATE CASCADE,
-                            FOREIGN KEY (bookID) REFERENCES books(bID) 
                                 ON DELETE CASCADE 
                                 ON UPDATE CASCADE
                         );
@@ -135,5 +132,5 @@ class dbConfig:
             print(e)
 
 
-#dbConfig.destroyAll()
-#dbConfig.initialize()
+# dbConfig.destroyAll()
+# dbConfig.initialize()

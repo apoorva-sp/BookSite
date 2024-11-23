@@ -1,7 +1,10 @@
+import datetime
+
 import mysql.connector
 from hashlib import md5
 from src.Beans.Member import Member
 from src.Beans.Status import Status
+from src.Database.BookDB import BookDB
 from src.Database.Constants import Constants
 from src.Database.dbconfig import dbConfig
 
@@ -15,7 +18,7 @@ class MemberDB:
     def insert_member(self, m: Member) -> Status:
         try:
             cursor = self.con.cursor()
-            sql = ("INSERT INTO MEMBERS (phone,fullname,passkey,address_line_one,address_line_two,city," +
+            sql = ("INSERT INTO MEMBERS (phone,fullname,passkey,addressLineOne,addressLineTwo,city," +
                    "state,pincode,preferenceOne,preferenceTwo,preferenceThree)" +
                    "VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);")
             password = md5(m.password.encode())
@@ -68,7 +71,7 @@ class MemberDB:
                        pincode: str):
         try:
             cursor = self.con.cursor()
-            sql = """UPDATE MEMBERS SET address_line_one = (%s), address_line_two = (%s), city = (%s) ,state = (%s), pincode = (%s) WHERE phone = (%s);"""
+            sql = """UPDATE MEMBERS SET addressLineOne = (%s), addressLineTwo = (%s), city = (%s) ,state = (%s), pincode = (%s) WHERE phone = (%s);"""
             values = (address_line_one, address_line_two, city, state, pincode, phone_number)
             cursor.execute(sql, values)
         except Exception as e:
@@ -108,7 +111,36 @@ class MemberDB:
         sql = "select mID from members where phone = %s"
         cursor.execute(sql,(phone,))
         return cursor.fetchone()
+
+    def getAddress(self,mid):
+        cursor = self.con.cursor()
+        sql = "SELECT addressLineOne,addressLineTwo,city,state,pincode from members where mid = %s;"
+        cursor.execute(sql,(mid,))
+        data = cursor.fetchone()
+        address = ""
+        for word in data:
+            address+=word+" "
+        return address.rstrip()
+
+    def getOrderDetails(self, bookID, buyerID):
+        cursor = self.con.cursor()
+        sql = "SELECT  price from books where bId = %s;"
+        cursor.execute(sql,(bookID,))
+        price = cursor.fetchone()[0]
+        l = [buyerID]
+        bdb = BookDB(self.con)
+        sid = bdb.getSellerId(bookID)
+        l.append(sid)
+        l.append(bookID)
+        l.append(price)
+        l.append(str(datetime.date.today()))
+        l.append(self.getAddress(sid))
+        l.append(self.getAddress(buyerID))
+        return l
+
 # d = dbConfig()
 # mdb = MemberDB(d.con)
-# print(mdb.login("1234567890","securepassword123"))
+# # print(mdb.getAddress(1))
+# # print(mdb.getOrderDetails(4,2))
+# # print(mdb.login("1234567890","securepassword123"))
 # d.commit()
