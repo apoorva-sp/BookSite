@@ -25,24 +25,22 @@ class OrdersBL:
         return self.status
 
     def placeOrders(self,BuyerId,booksIds):
-        ODB = OrdersDB(self.db.con)
-        BDB = BookDB(self.db.con)
         for BookId in booksIds:
+            db = dbConfig()
+            ODB = OrdersDB(db.con)
+            BDB = BookDB(db.con)
             if BuyerId == BDB.getSellerId(BookId):
                 self.status = Status(81,"Seller and Buyer cant be same person")
             else:
                 self.status = ODB.insertOrder(BuyerId,BookId)
 
             if self.status.statusId == 0:
-                self.db.commitWithoutClosing()
+                db.commit()
+                print("COMITTING")
             else:
-                print("ERROR WITH BOOK ID",BookId)
+                print("BOOK ID",BookId)
+                db.rollback()
+                self.status = Status(82, "Book Adding to Cart error")
 
-        if self.status.statusId == 0:
-            self.db.commit()
-        else:
-            self.db.rollback()
-            self.status = Status(82, "Book Adding to Cart error")
-
-# OBL = OrdersBL()
-# print(OBL.placeOrder(2,1))
+OBL = OrdersBL()
+print(OBL.placeOrders(2,[16,17]))

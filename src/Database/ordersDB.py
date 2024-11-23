@@ -17,12 +17,17 @@ class OrdersDB:
             cursor = self.con.cursor()
             mdb = MemberDB(self.db.con)
             values = mdb.getOrderDetails(bookID, buyerID)
-            print(values)
+            print(bookID,values)
             sql = """INSERT INTO orders(buyerID,sellerID,bookID,amount,orderDate,ShippingAddress,DeliveryAddress) 
                 VALUES(%s,%s,%s,%s,%s,%s,%s);"""
             cursor.execute(sql, values)
             bdb = BookDB(self.con)
             s = bdb.deleteBookOnId(bookID)
+            if s.statusId == 0:
+                self.db.commitWithoutClosing()
+            else:
+                print("DELETING PROBLEM")
+                self.db.rollback()
         except Exception as e:
             print(e)
             self.status = Status(70, "Order Insertion Error")
