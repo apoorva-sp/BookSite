@@ -2,10 +2,10 @@ from flask import Flask, request,session,jsonify, render_template, redirect, url
 from src.Beans.Books import Books
 from src.Business_Logic.BooksBL import BooksBL
 from src.Business_Logic.MemberBL import MemberBL
-from src.Database.BookDB import BookDB
-from src.Database.MembersDB import MemberDB
+from src.Business_Logic.ordersBL import OrdersBL
 from src.Business_Logic.CartBL import CartBL
 from src.Beans.Status import Status
+
 
 app = Flask(__name__, static_url_path='/src/UI/static')
 app.secret_key = 'Apoorvasp@2003'
@@ -220,12 +220,13 @@ def update_profile():
 def order_placed():
     data = request.get_json()
     book_ids = data.get('book_ids', [])
-    buyer_id = session['mid']
-    # Example logic: Process the book IDs for order placement
+    buyer_id = int(session['mid'])
+
     if book_ids:
         book_ids = [int(id) for id in book_ids]
         print(book_ids)
-        # Your order logic here
+        OBL = OrdersBL()
+        OBL.placeOrders(buyer_id,book_ids)
         return jsonify(success=True)
     else:
         return jsonify(success=False, message="No books in the cart.")

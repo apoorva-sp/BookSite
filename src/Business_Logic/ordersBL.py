@@ -42,5 +42,5 @@ class OrdersBL:
                 db.rollback()
                 self.status = Status(82, "Book Adding to Cart error")
 
-OBL = OrdersBL()
-print(OBL.placeOrders(2,[16,17]))
+# OBL = OrdersBL()
+# print(OBL.placeOrders(2,[16,17]))
